@@ -1,0 +1,2542 @@
+/* ========== RESET ========== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    overflow-x: clip;
+    scroll-padding-top: calc(var(--header-height) + 78px);
+}
+
+img {
+    max-width: 100%;
+    display: block;
+    image-rendering: auto;
+}
+
+figure {
+    margin: 0;
+}
+
+button {
+    font: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 0;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4 {
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
+/* Focus states for keyboard navigation */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+
+/* ========== VARIABLES (Figma design tokens + BUILD_PLAN structure) ========== */
+
+:root {
+    /* --- Colors (from Figma) ---------------------------------------- */
+    --color-red: #9C231F;
+    --color-red-deep: #811010;
+
+    --color-black: #030303;
+    --color-black-70: rgba(3, 3, 3, 0.70);
+    --color-black-62: rgba(3, 3, 3, 0.62);
+    --color-black-58: rgba(3, 3, 3, 0.58);
+    --color-black-50: rgba(3, 3, 3, 0.50);
+    --color-black-40: rgba(3, 3, 3, 0.40);
+    --color-black-30: rgba(3, 3, 3, 0.30);
+    --color-black-18: rgba(3, 3, 3, 0.18);
+    --color-black-15: rgba(3, 3, 3, 0.15);
+    --color-black-10: rgba(0, 0, 0, 0.10);
+
+    --color-white: #FFFFFF;
+    --color-form-bg: #EEF2F8;
+    --color-input-bg: #F3F3F5;
+    --color-cream: #FCF9F7;
+    --color-muted: #ECECF0;
+    --color-muted-fg: #717182;
+
+    /* Semantic aliases */
+    --color-text: var(--color-black);
+    --color-text-secondary: #444;
+    --color-text-muted: var(--color-black-58);
+    --color-bg: var(--color-white);
+    --color-bg-alt: var(--color-cream);
+    --color-accent: var(--color-red);
+    --color-accent-hover: var(--color-red-deep);
+    --color-accent-subtle: rgba(156, 35, 31, 0.35);
+    --color-accent-muted: rgba(156, 35, 31, 0.75);
+    --color-border: var(--color-black-40);
+    --color-border-light: var(--color-black-10);
+    --color-border-hairline: rgba(0, 0, 0, 0.08);
+
+    /* --- Typography (Figma: Manrope primary, Sacramento accent, Inter for arrows) --- */
+    --font-family: 'Geist', sans-serif;
+    --font-heading: 'Geist', sans-serif;
+    --font-accent: 'Sacramento', cursive;
+    --font-arrow: 'Inter', sans-serif;
+
+    --font-size-xs:   14px;
+    --font-size-sm:   16px;
+    --font-size-base: 18px;
+    --font-size-md:   20px;
+    --font-size-lg:   clamp(20px, calc(1.16rem + 0.376vw), 24px);
+    --font-size-xl:   clamp(22px, calc(1.24rem + 0.563vw), 28px);
+    --font-size-2xl:  clamp(26px, calc(1.49rem + 0.563vw), 32px);
+    --font-size-3xl:  clamp(34px, calc(1.82rem + 1.315vw), 48px);
+    --font-size-hero: 70px;
+    --font-size-hero-accent: 82px;
+
+    --font-weight-light: 300;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+
+    --line-height-base: 1.55;
+    --line-height-body: 1.6;
+    --letter-spacing-base: 0.01em;
+    --letter-spacing-wide: 0.02em;
+    --letter-spacing-logo: 0.17em;
+
+    /* --- Spacing (Figma tokens on 8pt grid) ------------------------- */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+    --space-6: 32px;
+    --space-7: 48px;
+    --space-8: 64px;
+    --space-9: 96px;
+    --space-10: 128px;
+
+    /* Semantic spacing aliases */
+    --space-xs: var(--space-1);
+    --space-sm: var(--space-2);
+    --space-md: var(--space-4);
+    --space-lg: var(--space-5);
+    --space-xl: var(--space-6);
+    --space-2xl: var(--space-7);
+    --space-3xl: var(--space-8);
+    --space-4xl: var(--space-9);
+
+    /* --- Layout (Figma dimensions) ---------------------------------- */
+    --width-max: 1440px;
+    --padding-section-x: 64px;
+    --padding-content-x: 104px;
+    --padding-projects-x: 218px;
+    --padding-section-y: 114px;
+    --padding-hero-y: 130px;
+
+    /* --- Border radius ---------------------------------------------- */
+    --radius-sharp: 1.5px;
+    --radius-sm: var(--radius-sharp);
+    --radius-md: var(--radius-sharp);
+    --radius-lg: var(--radius-sharp);
+    --radius-pill: 100px;
+    --radius-card: var(--radius-sharp);
+
+    /* --- Grid (teacher's signature pattern) ------------------------- */
+    --header-height: 90px;
+    --grid-container: [full-start] minmax(24px, 1fr) [inner-start] minmax(0, 87.5rem) [inner-end] minmax(24px, 1fr) [full-end];
+    --section-gap: var(--space-4xl);
+
+    /* --- Custom dashed separator ------------------------------------ */
+    --dash-color: var(--color-black-50);
+    --dash-length: 12px;
+    --dash-gap: 8px;
+}
+
+
+/* ========== TYPOGRAPHY ========== */
+
+body {
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-base);
+    letter-spacing: var(--letter-spacing-base);
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+}
+
+h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(32px, 3vw + 1rem, var(--font-size-hero));
+    font-weight: var(--font-weight-bold);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+
+h2 {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.2;
+}
+
+h3 {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.3;
+}
+
+
+/* ========== MAIN LAYOUT (teacher's grid container) ========== */
+
+.container {
+    display: grid;
+    grid-template-columns: var(--grid-container);
+    row-gap: 0;
+}
+
+/* Inner-width: content constrained to max-width */
+.site-content {
+    grid-column: inner;
+    padding: 0 var(--padding-section-x);
+}
+
+
+/* ========== SITE HEADER (Figma: logo + links) ========== */
+
+.site-header {
+    grid-column: full;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--color-bg);
+    transition: transform 500ms ease-in-out;
+}
+
+.site-header--hidden {
+    transform: translateY(-100%);
+}
+
+.site-header__inner {
+    height: var(--header-height);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 var(--padding-section-x);
+    max-width: 87.5rem;
+    margin: 0 auto;
+}
+
+/* --- Logo (SVG from Figma export) --- */
+.site-header__branding {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: fit-content;
+    transform: translateY(-5px);
+}
+
+.site-header__branding::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: -2px;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-accent);
+    transition: width 400ms ease-out;
+}
+
+.site-header__branding:hover::after {
+    width: calc(100% + 4px);
+}
+
+.site-header__branding img {
+    height: 26px;
+    width: auto;
+}
+
+/* --- Header nav links (Figma: animated links with red arrows) --- */
+.menu {
+    display: flex;
+    align-items: center;
+}
+
+.menu__list {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+
+.menu__toggle {
+    display: none;
+}
+
+
+/* ========== DASHED SEPARATOR (custom gradient — longer dashes, wider gaps) ========== */
+
+/* All separators: full viewport bleed, native dashed border at 25% opacity */
+.separator,
+.site-header__separator,
+.site-footer__separator {
+    border: none;
+    border-top: 1px dashed #000;
+    opacity: 0.25;
+    height: 0;
+    margin: 0;
+    /* Break out of padded containers to full viewport */
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+/* ========== HERO (Figma: image + headline, 208px vertical padding) ========== */
+
+.hero {
+    padding: 180px 0 180px;
+}
+
+.hero__inner {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+}
+
+.hero__image-wrap {
+    flex-shrink: 0;
+}
+
+.hero__image {
+    width: clamp(130px, 15vw, 210px);
+    height: auto;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    border: 0.344px solid var(--color-black-40);
+    box-shadow: 0 0 2.751px 0 rgba(0, 0, 0, 0.1);
+}
+
+.hero__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    flex: 1;
+    min-width: 0;
+}
+
+.hero__title {
+    white-space: nowrap;
+    font-size: clamp(22px, 4.8vw, 64px);
+}
+
+/* Sacramento accent — NOT italic, scales relative to parent h1 */
+.hero__title-accent {
+    font-family: var(--font-accent);
+    font-weight: var(--font-weight-regular);
+    font-style: normal;
+    font-size: 1.5em;
+    letter-spacing: 0;
+    margin-left: 0.08em;
+}
+
+
+/* ========== PROJECTS SECTION (Figma: wider padding 218px) ========== */
+
+.projects {
+    padding: 130px 0;
+    position: relative;
+}
+
+.projects::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    border-top: 1px dashed #000;
+    opacity: 0.25;
+    pointer-events: none;
+    bottom: 0;
+}
+
+.projects__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-7);
+}
+
+/* --- Project Card --- */
+.project-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    text-decoration: none;
+    color: inherit;
+    min-width: 0;
+    border: 1px solid var(--color-border-hairline);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    padding: 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.project-card__image-wrap {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: 0;
+    overflow: hidden;
+    position: relative;
+    container-type: inline-size;
+    border-bottom: 1px solid var(--color-border-hairline);
+}
+
+.project-card__image-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.project-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 600ms ease-in-out;
+    will-change: transform;
+    transform: scale(1.01) translateZ(0);
+}
+
+.project-card:hover .project-card__image {
+    transform: scale(1.03);
+}
+
+/* Recorded Future preview card: shift the dashboard screenshot crop left-of-center */
+.project-card[href$="recorded-future.html"] .project-card__image {
+    object-position: 8% center;
+}
+
+.project-card__overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(3, 3, 3, 0);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 22px;
+    padding: 36% 20px 20px;
+    transition: background-color 500ms ease-in-out;
+    border-radius: var(--radius-sm);
+}
+
+.project-card__overlay-text {
+    color: var(--color-white);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-md);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 400ms ease-in-out, transform 400ms ease-in-out;
+}
+
+.project-card__overlay-description {
+    color: rgba(255, 255, 255, 0.92);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-body);
+    text-align: left;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 400ms ease-in-out 30ms, transform 400ms ease-in-out 30ms;
+    margin: 0;
+}
+
+.project-card:hover .project-card__overlay-description {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.project-card__overlay-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 400ms ease-in-out 60ms, transform 400ms ease-in-out 60ms;
+}
+
+.project-card__overlay-tag {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    padding: var(--space-1) 11px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: var(--radius-sm);
+    color: var(--color-white);
+}
+
+.project-card:hover .project-card__overlay {
+    background-color: rgba(3, 3, 3, 0.92);
+}
+
+.project-card:hover .project-card__overlay-text,
+.project-card:hover .project-card__overlay-tags {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Compact overlay for small cards (e.g. 3-col other-cases grid) */
+@container (max-width: 360px) {
+    .project-card__overlay {
+        gap: 10px;
+        padding: 14px;
+    }
+
+    .project-card__overlay-text {
+        font-size: var(--font-size-sm);
+    }
+
+    .project-card__overlay-description {
+        display: none;
+    }
+
+    .project-card__overlay-tags {
+        gap: 4px;
+    }
+
+    .project-card__overlay-tag {
+        font-size: 11px;
+        padding: 2px var(--space-2);
+    }
+}
+
+.project-card__text {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 20px 16px 20px;
+    background: var(--color-bg);
+}
+
+.project-card .project-hero__eyebrow {
+    margin-bottom: 0;
+}
+
+.project-card__title {
+    font-size: clamp(14px, 1.4vw + 0.5rem, 20px);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.2px;
+    line-height: 1.3;
+    color: var(--color-text);
+    margin-top: var(--space-sm);
+}
+
+.project-card__description {
+    font-size: clamp(14px, 1.4vw, 16px);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-base);
+}
+
+.other-cases-grid .project-card__overlay {
+    padding-top: 38%;
+}
+
+/* Fix: .project-tabs .tabs__panel p overrides card p elements — reset here */
+.project-tabs .tabs__panel .project-card .project-hero__eyebrow {
+    margin-bottom: 0;
+    color: inherit;
+}
+
+.project-tabs .tabs__panel .project-card__overlay-description {
+    color: rgba(255, 255, 255, 0.92);
+    margin-bottom: 0;
+}
+
+.projects__list .project-card__overlay {
+    padding-top: 38%;
+}
+
+/* Hide overlay description on landing page cards (visible in text area only) */
+.projects__list .project-card__overlay-description {
+    display: none;
+}
+
+
+/* ========== TAB NAVIGATION (Figma: animated red underline, mt-14px) ========== */
+
+.tabs {
+    display: flex;
+    flex-direction: column;
+}
+
+.tabs__buttons {
+    display: flex;
+    gap: clamp(22px, 4.6vw, 64px);
+    border-bottom: none;
+}
+
+.tabs__button {
+    font-family: var(--font-family);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.48px;
+    color: var(--color-text-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-md) 0;
+    padding-bottom: 0;
+    position: relative;
+    transition: color 500ms ease;
+    white-space: nowrap;
+    text-transform: lowercase;
+}
+
+/* Red underline — 6px below text baseline; keeps air between line and dashed separator */
+.tabs__button::after {
+    content: '';
+    display: block;
+    margin-top: 6px;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-accent);
+    transition: width 400ms ease-out;
+}
+
+.tabs__button--active {
+    color: var(--color-text);
+}
+
+.tabs__button--active::after {
+    width: 100%;
+}
+
+.tabs__button:hover {
+    color: var(--color-text);
+}
+
+.tabs__button:hover::after {
+    width: 100%;
+}
+
+/* Tabs content wrapper — height animated by JS per active panel */
+.tabs__content {
+    position: relative;
+    overflow-x: clip;
+    overflow-y: clip;
+    transition: height 400ms ease;
+}
+
+/*
+ * Tab-lead — hook wrapper that sits ABOVE the column grid.
+ * Constrained to left-column width via max-width so the hook visually aligns
+ * with the left column below. Margin zeroed everywhere — parent gap on
+ * .tabs__panel / .process-block handles vertical spacing.
+ */
+.tabs__panel > .tab-intro,
+.process-block > .tab-intro {
+    max-width: calc(50% - 40px);
+    margin-bottom: 0;
+}
+
+.project-tabs .tabs__panel .tab-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.tab-intro .tab-intro__hook { margin-bottom: 0; }
+
+
+.tab-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+}
+
+.tab-cols__aside {
+    position: sticky;
+    top: calc(var(--header-height) + 78px + var(--space-md));
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    padding-top: 14px;
+}
+
+.process-block__media--sticky {
+    position: sticky;
+    top: calc(var(--header-height) + 78px + var(--space-md));
+    align-self: start;
+}
+
+.tabs__panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 500ms ease-in-out, transform 500ms ease-in-out;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.tabs__panel--active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    visibility: visible;
+    position: relative;
+}
+
+
+/* ========== ABOUT CONTENT ========== */
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    gap: var(--space-xl);
+}
+
+.about-grid__divider {
+    background-color: var(--color-black-15);
+    width: 1px;
+    margin: 28px 0;
+}
+
+.about-grid__col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.about-grid__col p {
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-body);
+    text-align: justify;
+    text-align-last: left;
+    hyphens: none;
+    text-wrap: pretty;
+}
+
+
+/* ========== TESTIMONIALS (Figma: avatar + quote) ========== */
+
+.testimonials-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+}
+
+.testimonial {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.testimonial__footer {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.testimonial__avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background-color: var(--color-muted);
+    flex-shrink: 0;
+    object-fit: cover;
+    filter: grayscale(100%);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    transform: translateY(-8px);
+}
+
+.testimonial__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.testimonial__quote {
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-body);
+    font-style: italic;
+}
+
+.testimonial__meta {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    gap: 0;
+}
+
+.testimonial__author {
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-xs);
+    display: flex;
+    align-items: center;
+}
+
+.testimonial__sep {
+    display: block;
+    flex: 1;
+    height: 1px;
+    background-color: var(--color-accent-subtle);
+    margin-left: var(--space-2);
+}
+
+.testimonial__role {
+    font-size: var(--font-size-xs);
+    color: var(--color-accent);
+}
+
+
+
+/* ========== ABOUT PAGE LAYOUT ========== */
+
+.about-page {
+    padding: 120px 0 120px;
+}
+
+.about-page__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3xl);
+    align-items: start;
+}
+
+.about-page__left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xl);
+}
+
+.about-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+}
+
+.about-text h3 {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-sm);
+}
+
+.about-photo {
+    width: 300px;
+    height: 300px;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+
+    filter: grayscale(100%);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.about-page__right > h3 {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-lg);
+}
+
+.about-page__right {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-2xl));
+}
+
+@media screen and (max-width: 900px) {
+    .about-page__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-page__right {
+        position: static;
+    }
+}
+
+
+/* ========== CV TAB ========== */
+
+.cv-sheet {
+    width: 100%;
+    border: 0.8px solid var(--color-black-18);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    display: flex;
+    text-align: left;
+}
+
+/* --- Sidebar --- */
+.cv-sidebar {
+    width: 224px;
+    flex-shrink: 0;
+    background-color: var(--color-form-bg);
+    padding: 26px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+}
+
+.cv-sidebar-section + .cv-sidebar-section {
+    margin-top: -10px;
+}
+
+.cv-identity {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    margin-top: 10px;
+}
+
+.cv-identity .cv-name {
+    margin-top: 12px;
+}
+
+.cv-label {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    line-height: 1;
+    color: var(--color-accent);
+}
+
+.cv-name {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.15;
+    color: var(--color-text);
+    display: inline-block;
+    position: relative;
+    padding-bottom: 9px;
+    margin-bottom: 14px;
+}
+
+.cv-name::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -1px;
+    width: calc(100% - 34px);
+    height: 2px;
+    background-color: var(--color-accent);
+}
+
+.cv-role {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    color: var(--color-text);
+}
+
+.cv-role-accent {
+    color: var(--color-accent);
+}
+
+.cv-sidebar-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.cv-sidebar-section .cv-summary + .cv-summary {
+    margin-top: var(--space-3);
+}
+
+.cv-section-label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+}
+
+.cv-contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.cv-contact-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: var(--font-size-xs);
+    color: var(--color-text);
+    text-decoration: none;
+    line-height: 1.4;
+}
+
+.cv-contact-item svg {
+    width: 11px;
+    height: 11px;
+    flex-shrink: 0;
+}
+
+.cv-contact-link-text {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.cv-summary {
+    font-size: var(--font-size-xs);
+    color: var(--color-text);
+    line-height: 1.65;
+}
+
+.cv-tools-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.cv-tool {
+    font-size: var(--font-size-xs);
+    color: var(--color-text);
+}
+
+/* --- Main column --- */
+.cv-main {
+    flex: 1;
+    background-color: var(--color-white);
+    padding: 26px 32px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    border-left: 1px dashed var(--color-border-light);
+    min-width: 0;
+}
+
+.cv-section + .cv-section {
+    margin-top: var(--space-xl);
+}
+
+.cv-main-top {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 14px;
+}
+
+.cv-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.cv-section-heading {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    padding-bottom: var(--space-3);
+    padding-left: 32px;
+    padding-right: 32px;
+    margin-left: -32px;
+    margin-right: -32px;
+    border-bottom: 1px dashed var(--color-border-light);
+}
+
+.cv-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.cv-entry-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-sm);
+}
+
+.cv-entry-title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+}
+
+.cv-entry-date {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-light);
+    color: var(--color-black-62);
+    display: block;
+}
+
+.cv-entry-company {
+    font-size: var(--font-size-sm);
+    color: var(--color-accent);
+    font-weight: var(--font-weight-medium);
+}
+
+.cv-entry-company::before {
+    content: '|';
+    margin-right: 7px;
+}
+
+.cv-entry-description {
+    font-size: var(--font-size-xs);
+    color: var(--color-text);
+    line-height: 1.65;
+    margin-top: 5px;
+}
+
+.cv-skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.cv-skill-pill {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    padding: 4px 10px;
+    border: 0.8px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    color: var(--color-text);
+}
+
+
+
+
+/* ========== SITE FOOTER (no bg, dashed line above) ========== */
+
+.site-footer {
+    grid-column: inner;
+    padding: 0 var(--padding-section-x);
+    background-color: transparent;
+}
+
+
+
+.site-footer__inner {
+    height: 80px;
+    padding: var(--space-lg) 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+.copyright-symbol {
+    color: var(--color-accent);
+    font-weight: var(--font-weight-medium);
+    margin: 0 var(--space-1);
+}
+
+.site-footer .menu__list {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease;
+}
+
+body.header-hidden .site-footer .menu__list {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.site-footer .animated-link__text {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-text-secondary);
+}
+
+.site-footer .animated-link__text::after {
+    height: 1px;
+}
+
+.site-footer .animated-link__arrow {
+    width: 13px;
+    height: 15px;
+    justify-content: center;
+}
+
+.site-footer .animated-link__arrow svg path {
+    stroke: var(--color-accent-muted);
+}
+
+
+/* ========== PROJECT DETAIL PAGE ========== */
+
+/* --- Project Hero (centered 800px reading column) --- */
+.project-hero {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+    padding: 100px 0 var(--space-2xl);
+    max-width: 68.75rem;
+    margin: 0;
+}
+
+.project-hero__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+}
+
+.project-hero__eyebrow {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+    width: fit-content;
+    white-space: nowrap;
+}
+
+.project-hero__meta {
+    display: flex;
+}
+
+.project-hero__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+/* Project detail h1 override */
+.project-hero h1 {
+    font-size: clamp(28px, 4vw, 48px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+}
+
+.project-hero__tag {
+    font-size: 0.38em;
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #888;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.project-hero__dash {
+    font-weight: var(--font-weight-light);
+}
+
+.project-hero__description {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-body);
+}
+
+.project-hero__image-wrap {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--color-border-light);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.project-hero__image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+}
+
+.project-hero__image--full {
+    aspect-ratio: 16 / 9;
+}
+
+.tabs__button[data-tab="projects"] {
+    margin-left: auto;
+}
+
+.tabs__button[data-tab="projects"]::before {
+    content: '';
+    position: absolute;
+    right: calc(100% + clamp(20px, 3.5vw, 50px));
+    top: 50%;
+    transform: translateY(-24%);
+    width: 1.6px;
+    height: 20.5px;
+    background-color: rgba(0, 0, 0, 0.22);
+    pointer-events: none;
+}
+
+/* ========== OTHER CASES PANEL ========== */
+.other-cases-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+}
+
+/* --- Project Content Tabs (left-aligned, sticky scroll) --- */
+.project-tabs {
+    padding: 0;
+    max-width: 68.75rem;
+    margin: var(--space-xl) 0 var(--space-3xl);
+}
+
+/* Sticky tab navigation — top: 0 when header is hidden, var(--header-height) when visible */
+.project-tabs .tabs__buttons {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    padding: 12px 0 26px;
+    isolation: isolate;
+    transition: top 500ms ease-in-out;
+}
+
+body:not(.header-hidden) .project-tabs .tabs__buttons {
+    top: var(--header-height);
+}
+
+/* Full-width background bleed for sticky tab bar */
+.project-tabs .tabs__buttons::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -100vw;
+    right: -100vw;
+    width: auto;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: -1;
+}
+
+/* Conditional dashed line below sticky tabs when stuck AND header hidden */
+.project-tabs .tabs__buttons::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -100vw;
+    right: -100vw;
+    width: auto;
+    border-top: 1px dashed #000;
+    opacity: 0;
+    transition: opacity 500ms ease-in-out;
+    pointer-events: none;
+}
+
+body.tabs-stuck .project-tabs .tabs__buttons::after {
+    opacity: 0.25;
+}
+
+
+.project-tabs .tabs__panel {
+    display: flex;
+    flex-direction: column;
+    gap: 42px;
+    padding-top: var(--space-2xl);
+    padding-bottom: var(--space-3xl);
+}
+
+/*
+ * Body paragraphs only — excludes .tab-intro__hook and .tab-intro__sub so
+ * those keep their own typography (line-height 1.15 / 1.5, primary color,
+ * own margins). Without :not(), this selector's specificity (0,2,1) silently
+ * beats the hook/sub rules below and corrupts their rendering.
+ */
+.project-tabs .tabs__panel p:not(.tab-intro__hook):not(.tab-intro__sub) {
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-body);
+    letter-spacing: 0.16px;
+    margin-bottom: var(--space-md);
+    hyphens: none;
+    text-wrap: pretty;
+}
+
+.project-tabs .tabs__panel p:last-child:not(.tab-intro__hook):not(.tab-intro__sub) {
+    margin-bottom: 0;
+}
+
+/* Inline emphasis inside tab paragraphs and list items (use <strong> in HTML) */
+.project-tabs .tabs__panel p strong,
+.project-tabs .tabs__panel li strong {
+    font-weight: var(--font-weight-semibold);
+    font-size: 0.95em;
+}
+
+.project-tabs .tabs__panel h3:not(.tab-label) {
+    margin-bottom: var(--space-sm);
+}
+
+.project-tabs .tabs__panel ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.project-tabs .tabs__panel li {
+    display: block;
+    padding-left: 1.1em;
+    position: relative;
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-body);
+    letter-spacing: 0.16px;
+    margin-bottom: var(--space-3);
+}
+
+.project-tabs .tabs__panel li::before {
+    content: "▪";
+    color: var(--color-accent);
+    font-size: 0.7em;
+    position: absolute;
+    left: 0;
+    top: 0.22em;
+}
+
+.project-tabs .tabs__panel .accented-list {
+    list-style: none;
+    padding-left: 0;
+    counter-reset: accented-counter;
+}
+
+.project-tabs .tabs__panel .accented-list li {
+    counter-increment: accented-counter;
+    display: flex;
+    gap: 0.75em;
+    align-items: baseline;
+}
+
+.project-tabs .tabs__panel .accented-list li::before {
+    content: counter(accented-counter) ".";
+    color: var(--color-accent);
+    font-weight: var(--font-weight-extrabold);
+    font-size: 0.8em;
+    flex-shrink: 0;
+    line-height: inherit;
+}
+
+/* --- Tab layout helpers (Brief, My Role) --- */
+
+.tab-intro__hook {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+    text-align: left;
+    margin-bottom: 44px;
+}
+
+.tab-intro__sub {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    hyphens: none;
+}
+
+/* Space between sub and a following body paragraph (sub→label uses label's own margin-top) */
+.project-tabs .tabs__panel .tab-intro__sub + p:not(.tab-intro__sub):not(.tab-intro__hook) {
+    margin-top: var(--space-xl);
+}
+
+.post-mortem-lead-img {
+    max-width: 100%;
+    margin-bottom: var(--space-xl);
+}
+
+
+
+.tab-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xl);
+    margin-top: var(--space-2xl);
+}
+
+.tab-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.tab-block--divided {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-xl);
+}
+
+/*
+ * .tab-label spacing model
+ * -----------------------------------------------------------------------------
+ * Spacing belongs to the label itself, not its predecessor. One rule for all
+ * containers (.brief-col, .tab-cols > div, .process-block__text,
+ * direct .tabs__panel children).
+ *
+ * Note on flex containers (.process-block__text uses gap: var(--space-md)):
+ * margins do NOT collapse in flex — they ADD to the gap. So a label after a <p>
+ * in process-block__text gets margin-top: 48px + gap: 16px = 64px visible space.
+ * This matches the previous cluster's behavior.
+ */
+.tab-label {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+    margin-top: var(--space-xl);
+    margin-bottom: var(--space-lg);
+}
+
+.tab-label--sub {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-extrabold);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+}
+
+/* First label in a container — parent gap handles spacing above */
+.tab-label:first-child { margin-top: 0; }
+
+/* Adjacent labels — rely on predecessor's margin-bottom, don't double-stack */
+.tab-label + .tab-label { margin-top: 0; }
+
+/* Post-mortem section dividers around column grids */
+.tabs__panel > .brief-cols + .tab-label,
+.tabs__panel > .tab-cols + .tab-label {
+    margin-top: var(--space-4xl);
+}
+
+.tabs__panel > .tab-label + .brief-cols,
+.tabs__panel > .tab-label + .tab-cols {
+    margin-top: var(--space-md);
+}
+
+@media (max-width: 640px) {
+    .tab-grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ========== PROCESS SECTION SCAFFOLDING ========== */
+
+.process-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+}
+
+.process-section h3 {
+    margin-bottom: var(--space-sm);
+}
+
+/* Text-only child divs inside process section get two-column layout */
+.process-section > div:not(:has(img)):not(:has(.process-image-grid)):not(:has(.process-placeholder)):not(:has(.logo-comparison-grid)) {
+    columns: 2;
+    column-gap: 80px;
+}
+
+.process-section > div:not(:has(img)):not(:has(.process-image-grid)):not(:has(.process-placeholder)):not(:has(.logo-comparison-grid)) h3 {
+    column-span: all;
+}
+
+/* Image/media blocks stay full single-column width — narrower than text */
+.process-section .process-image-grid,
+.process-section .process-placeholder--full,
+.process-section .process-image-wrap {
+    max-width: 72%;
+}
+
+.process-image-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+}
+
+.process-placeholder {
+    background-color: var(--color-muted);
+    border-radius: var(--radius-sm);
+}
+
+.process-placeholder--grid {
+    aspect-ratio: 4 / 3;
+}
+
+.process-placeholder--full {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+}
+
+@media screen and (max-width: 480px) {
+    .process-image-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.process-image-wrap {
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--color-border-hairline);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.process-image-wrap img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.logo-comparison-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    align-items: flex-start;
+    max-width: 72%;
+}
+
+.logo-comparison-grid__item {
+    display: flex;
+    align-items: center;
+}
+
+.logo-comparison-grid__item img {
+    max-height: 72px;
+    max-width: 240px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+
+
+
+/* ========== ANIMATED LINKS (Figma: Manrope text + Inter arrow) ========== */
+
+.animated-link {
+    display: inline-flex;
+    align-items: baseline;
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+}
+
+.animated-link__text {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-base);
+    letter-spacing: 0.18px;
+    color: var(--color-text);
+    position: relative;
+}
+
+
+/* CRITICAL: Arrow as inline SVG via CSS for clean Inter-weight silhouette */
+.animated-link__arrow {
+    display: none;
+    width: 15px;
+    height: 16px;
+    margin-left: 2px;
+    vertical-align: baseline;
+    position: relative;
+    top: 3px;
+}
+
+.animated-link__arrow svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.animated-link__text::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: -1px;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-accent);
+    transition: width 400ms ease-out;
+}
+
+.animated-link:hover .animated-link__text::after {
+    width: calc(100% + 2.5px);
+}
+
+
+/* ========== RESPONSIVE MENU OVERLAY (teacher's advanced pattern) ========== */
+
+.responsive-menu {
+    position: fixed;
+    width: 100%;
+    min-height: 100dvh;
+    z-index: 200;
+    background-color: var(--color-bg);
+    display: none;
+}
+
+.responsive-menu--visible {
+    display: grid;
+    place-items: center;
+}
+
+.responsive-menu__list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-lg);
+}
+
+.responsive-menu__link {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+}
+
+.responsive-menu__close {
+    position: absolute;
+    top: var(--space-lg);
+    right: var(--space-lg);
+}
+
+
+/* ========== RESPONSIVE (desktop-first, teacher's pattern) ========== */
+
+@media screen and (max-width: 1024px) {
+    :root {
+        --padding-section-x: 40px;
+        --padding-content-x: 40px;
+        --padding-projects-x: 64px;
+        --padding-hero-y: 120px;
+    }
+
+    .hero__inner {
+        gap: var(--space-xl);
+    }
+
+}
+
+@media screen and (max-width: 860px) {
+    .hero__inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-lg);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    :root {
+        --header-height: 64px;
+        --padding-section-x: 24px;
+        --padding-content-x: 0px;
+        --padding-projects-x: 24px;
+        --padding-section-y: 64px;
+        --padding-hero-y: 80px;
+        --section-gap: var(--space-3xl);
+        --grid-container: [full-start] minmax(16px, 1fr) [inner-start] minmax(0, 87.5rem) [inner-end] minmax(16px, 1fr) [full-end];
+    }
+
+    /* Header */
+
+    .site-header__branding img {
+        height: 22px;
+    }
+
+    .menu__toggle {
+        display: flex;
+    }
+
+    .menu__list {
+        display: none;
+    }
+
+    h1 {
+        font-size: clamp(28px, 6vw, 42px);
+    }
+
+    .hero__title-accent {
+        font-size: inherit;
+    }
+
+    .projects__list {
+        grid-template-columns: 1fr;
+        gap: var(--space-3xl);
+    }
+
+    /* Tabs */
+    .tabs__buttons {
+        gap: clamp(16px, 3.5vw, 40px);
+    }
+
+    /* About grid */
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+
+    .about-grid__divider {
+        display: none;
+    }
+
+    /* Footer */
+    .site-footer__inner {
+        text-align: center;
+        padding: var(--space-lg) 0;
+    }
+
+    .project-hero {
+        padding-top: 40px;
+    }
+
+
+    /* Process blocks: stack on mobile */
+    .process-block__row,
+    .process-block__row--reversed {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+    }
+
+    .brief-cols {
+        grid-template-columns: 1fr;
+    }
+
+    .process-section .process-image-grid,
+    .process-section .process-placeholder--full,
+    .process-section .process-image-wrap,
+    .logo-comparison-grid {
+        max-width: 100%;
+    }
+
+}
+
+@media screen and (max-width: 480px) {
+    .testimonial {
+        flex-direction: column;
+    }
+}
+
+.process-image-wrap--no-border {
+    border: none;
+}
+
+.process-image-wrap--logo {
+    border: none;
+    box-shadow: none;
+}
+
+/* Slight visual zoom for full-frame slides that don't quite fill the wrap */
+.process-image-wrap--scaled img {
+    transform: scale(1.03);
+}
+
+.logo-pair {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--space-3xl) + 12px);
+}
+
+.logo-pair__item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-lg);
+    position: relative;
+}
+
+.logo-pair--no-divider .logo-pair__item:not(:first-child)::before {
+    display: none;
+}
+
+.logo-pair__item:not(:first-child)::before {
+    content: "";
+    position: absolute;
+    top: calc(-1 * var(--space-3xl) - 12px + 4px);
+    right: 8px;
+    width: 1px;
+    height: calc(var(--space-3xl) + 12px - 8px);
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(156, 35, 31, 0.28) 0px,
+        rgba(156, 35, 31, 0.28) 3px,
+        transparent 3px,
+        transparent 6px
+    );
+}
+
+.logo-pair__item .process-image-wrap {
+    flex: 1;
+    padding: var(--space-md);
+    border: none;
+    border-radius: var(--radius-sm);
+}
+
+.logo-pair__item .process-caption {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-align: center;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.logo-pair__item .process-caption::before {
+    content: "";
+    display: block;
+    margin-bottom: 0.5em;
+}
+
+.process-caption {
+    font-size: var(--font-size-xs);
+    color: var(--color-muted-fg);
+    margin-top: var(--space-2);
+    font-style: italic;
+}
+
+.process-caption--split {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 var(--space-5);
+}
+
+.process-caption--right {
+    text-align: right;
+}
+
+/* Brief tab: two-column problems/constraints layout */
+.brief-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+}
+
+.brief-col:last-child {
+    position: sticky;
+    top: calc(var(--header-height) + 78px + var(--space-md));
+    align-self: start;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+.brief-col:last-child > :first-child {
+    margin-top: 0;
+}
+
+.brief-cols--sticky-left .brief-col:first-child {
+    position: sticky;
+    top: calc(var(--header-height) + 78px + var(--space-md));
+    align-self: start;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+.brief-cols--sticky-left .brief-col:last-child {
+    position: static;
+}
+
+/* Spacing and timeline lines between Dashboard sections */
+.process-block__text--timeline p + .tab-label,
+.process-block__text--timeline ul + .tab-label {
+    padding-top: var(--space-2xl);
+    position: relative;
+}
+
+
+/* ── Empley-specific overrides ─────────────────────────────────────────── */
+
+/* Remove sticky: problem tab aside */
+.page-empley .tabs__panel[data-tab-id="problem"] .tab-cols__aside {
+    position: static;
+}
+
+/* Remove sticky: participation right column */
+.page-empley .tabs__panel[data-tab-id="participation"] .brief-col:last-child {
+    position: static;
+}
+
+/* Remove sticky: process blocks 1 (visual direction), 3 (plan creation form), 4 (five-step workflow) */
+.page-empley .tabs__panel[data-tab-id="process"] .process-block:nth-child(1) .process-block__text,
+.page-empley .tabs__panel[data-tab-id="process"] .process-block:nth-child(3) .process-block__text,
+.page-empley .tabs__panel[data-tab-id="process"] .process-block:nth-child(4) .process-block__text {
+    position: static;
+}
+
+/* Block 1 (visual direction): media side sticks alongside the text as user scrolls */
+.page-empley .tabs__panel[data-tab-id="process"] .process-block:nth-child(1) .process-block__media {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-2xl));
+    align-self: start;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Block 4 (five-step workflow): lead image is taller and cropped from the top */
+.page-empley .tabs__panel[data-tab-id="process"] .process-block:nth-child(4) .process-image-wrap img {
+    min-height: 620px;
+    object-fit: cover;
+    object-position: top;
+}
+
+/* Nudge all process block images down slightly (not block 1 — logos align naturally) */
+.page-empley .tabs__panel[data-tab-id="process"] .process-block:not(:nth-child(1)) .process-block__media {
+    padding-top: 12px;
+}
+
+/* Post-mortem: team photo wraps in a process-stack__item that needs to align with the quote block above */
+.page-empley .tabs__panel[data-tab-id="post-mortem"] .brief-col:last-child .process-stack__item {
+    /* +6px nudges the photo wrap to align with the bottom of the quote block to its left */
+    margin-top: calc(var(--space-3xl) + 6px);
+    max-width: 100%;
+}
+
+.page-empley .tabs__panel[data-tab-id="post-mortem"] .brief-col:last-child .process-stack__item img {
+    max-height: 420px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+
+/* ── EllyCare-specific overrides ───────────────────────────────────────── */
+
+/* Remove sticky: problem tab right column */
+.page-ellycare .tabs__panel[data-tab-id="problem"] .brief-col:last-child {
+    position: static;
+}
+
+/* Participation: no sticky, columns aligned at top */
+.page-ellycare .tabs__panel[data-tab-id="participation"] .brief-col:last-child {
+    position: static;
+}
+
+/* Process: remove sticky from block 1 (intro), block 4 (brand identity), block 5 (expected accessibility) */
+.page-ellycare .tabs__panel[data-tab-id="process"] .process-block:nth-child(1) .process-block__text,
+.page-ellycare .tabs__panel[data-tab-id="process"] .process-block:nth-child(4) .process-block__text,
+.page-ellycare .tabs__panel[data-tab-id="process"] .process-block:nth-child(5) .process-block__text {
+    position: static;
+}
+
+.page-ellycare .tabs__panel[data-tab-id="process"] .process-block:nth-child(5) .process-block__media {
+    padding-top: var(--space-lg);
+}
+
+
+/* Before block: pull closer to block 1 — 128px default is too open */
+.page-ellycare .tabs__panel[data-tab-id="process"] .process-block:nth-child(2) {
+    padding-top: var(--space-lg);
+}
+
+/* Audit and restructure: tighter than the default 48/32 — lead above is short */
+.page-ellycare .tabs__panel[data-tab-id="process"] .process-block:nth-child(1) .process-block__text .tab-label {
+    margin-top: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+/* Brand identity: inline label + violet bullet */
+.brand-bullet {
+    display: block;
+    padding-left: 1.1em;
+    position: relative;
+    line-height: var(--line-height-body);
+    letter-spacing: 0.16px;
+}
+
+.brand-bullet::before {
+    content: "▪";
+    color: #A5B4F8;
+    font-size: 0.7em;
+    position: absolute;
+    left: 0;
+    top: 0.22em;
+}
+
+.brand-bullet__label {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-extrabold);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--color-black);
+}
+
+/* Brand identity: logo images */
+.page-ellycare .tabs__panel[data-tab-id="process"] .process-block:nth-child(4) .process-block__media {
+    align-self: start;
+    padding-top: var(--space-2xl);
+}
+
+/* Post-mortem: remove sticky from right column */
+.page-ellycare .tabs__panel[data-tab-id="post-mortem"] .brief-col:last-child {
+    position: static;
+}
+
+/* Block 1 media: extra gap below the first caption to balance the two-image stack */
+.page-ellycare .tabs__panel[data-tab-id="process"] .process-block:nth-child(1) .process-block__media .process-caption:first-of-type {
+    margin-bottom: var(--space-2xl);
+}
+
+/* Block 3 (After): redesign image gets a -2px nudge to eliminate a hairline gap below */
+.page-ellycare .tabs__panel[data-tab-id="process"] .process-block:nth-child(3) .process-block__media .process-image-wrap img {
+    margin-bottom: -2px;
+}
+
+/* Block 4 (Brand identity) opens with extra breathing room from the block above */
+.page-ellycare .tabs__panel[data-tab-id="process"] .process-block:nth-child(4) {
+    padding-top: var(--space-3xl);
+}
+
+/* Block 4: "my logo variants" wrap is offset right + the logo image is smaller */
+.page-ellycare .tabs__panel[data-tab-id="process"] .process-block:nth-child(4) .logo-pair__item:last-child .process-image-wrap--logo {
+    margin-left: var(--space-xl);
+}
+.page-ellycare .tabs__panel[data-tab-id="process"] .process-block:nth-child(4) .logo-pair__item:last-child .process-image-wrap--logo img {
+    max-width: 80%;
+}
+
+/* Block 5 (Accessibility panel): soft rounded corners on the panel image */
+.page-ellycare .tabs__panel[data-tab-id="process"] .process-block:nth-child(5) .process-block__media .process-image-wrap {
+    border-radius: 4px;
+}
+
+/* Block 5: caption nudged 6px right to align with image content edge */
+.page-ellycare .tabs__panel[data-tab-id="process"] .process-block:nth-child(5) .process-block__media .process-caption {
+    margin-left: 6px;
+}
+
+/* ── Recorded Future-specific overrides ────────────────────────────────── */
+
+/* Participation: remove sticky from right column */
+.page-recorded-future .tabs__panel[data-tab-id="participation"] .brief-col:last-child {
+    position: static;
+}
+
+/* Process: remove sticky from all text columns */
+.page-recorded-future .tabs__panel[data-tab-id="process"] .process-block__text {
+    position: static;
+}
+
+.page-recorded-future .tabs__panel[data-tab-id="process"] .process-block:nth-child(3) .process-block__media {
+    padding-top: var(--space-3xl);
+}
+
+/* Block 1 media: tiny nudge so the first image sits just below the label cap-height,
+   rather than perfectly aligned with the label top (which can read as cramped). */
+.page-recorded-future .tabs__panel[data-tab-id="process"] .process-block:nth-child(1) .process-block__media {
+    padding-top: var(--space-3);
+}
+
+/* Process: stacked images in blocks 1 (PURE testing) and 2 (Card sorting) need extra gap */
+.page-recorded-future .tabs__panel[data-tab-id="process"] .process-block:nth-child(1) .process-stack,
+.page-recorded-future .tabs__panel[data-tab-id="process"] .process-block:nth-child(2) .process-stack {
+    gap: var(--space-3xl);
+}
+
+/* Post-mortem: extra breathing room around the first-column label and brief-cols grid */
+.page-recorded-future .tabs__panel[data-tab-id="post-mortem"] .brief-col:first-child .tab-label {
+    margin-bottom: var(--space-2xl);
+}
+
+.page-recorded-future .tabs__panel[data-tab-id="post-mortem"] .brief-cols {
+    margin-top: var(--space-2xl);
+}
+
+/* Participation: right col has short content, no benefit to sticky */
+.page-ballograf .tabs__panel[data-tab-id="participation"] .brief-col:last-child {
+    position: static;
+}
+
+/* Process: a bit more breathing room between stacked images */
+.page-ballograf .tabs__panel[data-tab-id="process"] .process-stack {
+    gap: var(--space-2xl);
+}
+
+/* Engraving prototype menu image: no border + no shadow (flat asset on white) */
+.page-ballograf .process-image-wrap:has(img[src*="engraving-prototype-menu"]) {
+    box-shadow: none;
+}
+
+/* Engraving image (near-square): full column width, height matched to old-design (its before/after pair) via cropped aspect */
+.page-ballograf .tabs__panel[data-tab-id="process"] .process-image-wrap:has(img[src$="ballograf/engraving.webp"]) {
+    aspect-ratio: 1336 / 1008;
+}
+
+.page-ballograf .tabs__panel[data-tab-id="process"] .process-image-wrap:has(img[src$="ballograf/engraving.webp"]) img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+
+/* Before/after nav comparison — stacked full width */
+.nav-before-after {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+
+.nav-before-after .process-image-wrap {
+    border: none;
+    box-shadow: none;
+}
+
+.nav-comparison-label {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+    margin-bottom: var(--space-xl);
+}
+
+/* Participation tools inline label */
+.tools-label {
+    color: var(--color-accent);
+    font-weight: 450;
+}
+
+/* My Role tab: prevent tab button text from wrapping on small screens */
+.tabs__button[data-tab="role"] {
+    white-space: nowrap;
+}
+
+
+/* ========== PROCESS BLOCKS (new alternating layout) ========== */
+
+.process-blocks {
+    display: flex;
+    flex-direction: column;
+}
+
+.process-block {
+    padding: var(--space-3xl) 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+    position: relative;
+}
+
+
+.process-block:first-child {
+    padding-top: 0;
+}
+
+.process-block > h3 {
+    margin-bottom: 0;
+}
+
+.process-block__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+}
+
+.process-block__row--centered {
+    align-items: center;
+}
+
+.process-block__row--reversed {
+    grid-template-columns: 6fr 5fr;
+}
+
+/*
+ * Fallback for process blocks where the text column starts with a .tab-label
+ * (no .tab-intro__sub paragraph above it) AND the block has a .tab-intro hook
+ * above the row. Two things happen:
+ *   1. The row gets a small margin-top so the total hook→label distance
+ *      reaches 48px (32px process-block flex gap + 16px margin), matching the
+ *      hook→first-content distance in other tabs.
+ *   2. align-items: start overrides any --centered modifier so the label top
+ *      and the first media item top stay aligned.
+ * Currently fires on Recorded Future process Block 1.
+ */
+.process-block > .tab-intro + .process-block__row:has(.process-block__text > .tab-label:first-child) {
+    margin-top: var(--space-md);
+    align-items: start;
+}
+
+.process-block__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    position: sticky;
+    top: calc(var(--header-height) + 78px + var(--space-md));
+    align-self: start;
+}
+
+.process-block__text > p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.process-block__media {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    align-self: start;
+}
+
+.process-block__media > .process-caption {
+    margin-bottom: var(--space-lg);
+}
+
+/* Stacked image sequence (scrollable before→after) */
+.process-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+}
+
+.process-stack__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* Images inside tab content — tighter vertical rhythm than standalone process images */
+.process-image-wrap--tab {
+    margin-top: var(--space-xl);
+    margin-bottom: var(--space-md);
+}
+
+.process-image-wrap--tab + .process-image-wrap--tab {
+    margin-top: 0;
+}
+
+
+.project-quotes {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+    margin-top: var(--space-md);
+}
+
+.tab-label + .project-quotes {
+    margin-top: var(--space-2xl);
+}
+
+.project-quote {
+    margin: 0;
+    padding-left: var(--space-md);
+    border-left: 2px solid var(--color-accent);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.project-quote p {
+    font-style: italic;
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-body);
+}
+
+.project-tabs .tabs__panel .project-quote p {
+    margin-bottom: 0;
+}
+
+.project-quote footer {
+    font-size: var(--font-size-xs);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.project-quote__author {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-accent);
+}
+
+.project-quote__role {
+    font-weight: var(--font-weight-regular);
+    color: var(--color-accent);
+}
+
+@media (max-width: 640px) {
+    .brief-cols {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ========== LIGHTBOX ========== */
+
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    background-color: rgba(255, 255, 255, 0.97);
+    overflow: auto;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 300ms ease, visibility 0s 300ms;
+    cursor: none;
+}
+
+.lightbox--visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition: opacity 300ms ease, visibility 0s 0s;
+}
+
+
+/* scene: always fills viewport; grows with zoomed image to enable scrolling */
+.lightbox__scene {
+    min-width: 100%;
+    min-height: 100%;
+    display: flex;
+    padding: 80px var(--space-5) var(--space-5);
+    box-sizing: border-box;
+}
+
+/* wrap: entrance scale animation — independent of zoom */
+.lightbox__wrap {
+    display: flex;
+    margin: auto;
+    transform: scale(0.96);
+    transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: none;
+}
+
+.lightbox--visible .lightbox__wrap {
+    transform: scale(1);
+}
+
+/* img: CSS defaults for initial render before JS sets explicit dimensions */
+.lightbox__img {
+    max-width: min(88vw, 87.5rem);
+    max-height: 85vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: var(--radius-sm);
+    display: block;
+}
+
+/* Close button: fixed so it stays visible while scrolling zoomed image */
+.lightbox__close {
+    position: fixed;
+    top: var(--space-5);
+    right: var(--space-5);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 8px 14px;
+    color: rgba(255, 255, 255, 0.95);
+    background: rgba(0, 0, 0, 0.92);
+    border: none;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.02em;
+    transition: color 200ms ease, background 200ms ease;
+    z-index: 510;
+}
+
+.lightbox__close:hover {
+    color: var(--color-white);
+    background: var(--color-black);
+}
+
+.lightbox__close svg {
+    flex-shrink: 0;
+}
+
+.lightbox__close:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+    border-radius: var(--radius-sm);
+}
+
+/* Custom cursor — fixed so it stays above scrollable content */
+.lightbox__cursor {
+    position: fixed;
+    pointer-events: none;
+    z-index: 520;
+    color: rgba(255, 255, 255, 0.95);
+    font-family: var(--font-family);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.04em;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 150ms ease;
+    user-select: none;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.92);
+    padding: 6px 12px;
+    border-radius: var(--radius-pill);
+}
+
+.lightbox__cursor--visible {
+    opacity: 1;
+}
+
+
+/* ========== JUSTIFY SAFETY — narrow viewports ========== */
+
+@media (max-width: 600px) {
+    .project-tabs .tabs__panel p,
+    .tab-intro__sub,
+    .about-grid__col p {
+        text-align: left;
+    }
+}
+
+
+/* ========== REDUCED MOTION ========== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+}

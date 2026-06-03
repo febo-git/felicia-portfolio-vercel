@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Editor
+.vscode/
+
+# Vercel CLI (created when you run `vercel`)
+.vercel/
+
+# Backups (git history is the new safety net)
+_backup_*/
+_backup_*
+*.bak
+
+# Source PNGs replaced by their .webp versions
+assets/images/ballograf/engraving-prototype-site.png
+assets/images/ballograf/engraving-prototype-menu.png
+
+# Node tooling (if you add any later)
+node_modules/

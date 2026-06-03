@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ballograf &mdash; Felicia Borssen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100;200;300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="page-ballograf">
+    <div class="container">
+        <!-- Site header -->
+        <header class="site-header">
+            <div class="site-header__inner">
+                <a href="index.html" class="site-header__branding">
+                    <img src="assets/images/global/logo.svg" alt="F.Borssén" width="181" height="30">
+                </a>
+                <nav class="menu">
+                    <button class="menu__toggle" aria-label="Open menu" aria-expanded="false">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                    <ul class="menu__list">
+                        <li class="menu__item">
+                            <a href="mailto:felicia.work.inbox@gmail.com" class="animated-link">
+                                <span class="animated-link__text">email</span><span class="animated-link__arrow"><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H5M10.5 3.5V9" stroke="#9C231F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                            </a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="https://www.linkedin.com/in/felicia-borss%C3%A9n-008252253/" class="animated-link" target="_blank" rel="noopener">
+                                <span class="animated-link__text">linkedin</span><span class="animated-link__arrow"><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H5M10.5 3.5V9" stroke="#9C231F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                            </a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="assets/images/global/cv-felicia-borssen-2026.pdf" class="animated-link" target="_blank" rel="noopener">
+                                <span class="animated-link__text">cv</span><span class="animated-link__arrow"><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H5M10.5 3.5V9" stroke="#9C231F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <hr class="separator site-header__separator" aria-hidden="true">
+        </header>
+
+        <!-- Responsive menu overlay -->
+        <div class="responsive-menu" aria-hidden="true">
+            <button class="responsive-menu__close" aria-label="Close menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <ul class="responsive-menu__list">
+                <li><a href="index.html" class="responsive-menu__link">Work</a></li>
+                <li><a href="about.html" class="responsive-menu__link">CV</a></li>
+                <li><a href="https://www.linkedin.com/in/felicia-borss%C3%A9n-008252253/" class="responsive-menu__link" target="_blank" rel="noopener">LinkedIn</a></li>
+                <li><a href="mailto:felicia.work.inbox@gmail.com" class="responsive-menu__link">Email</a></li>
+            </ul>
+        </div>
+
+        <!-- Main content -->
+        <main class="site-content">
+            <section class="project-hero">
+                <div class="project-hero__header">
+                    <p class="project-hero__eyebrow">UX Research &mdash; Service Design &mdash; B2C</p>
+                    <h1>How we found business value in a quiet feature</h1>
+                </div>
+                <figure class="project-hero__image-wrap">
+                    <img src="assets/images/ballograf/hero.webp" alt="Ballograf pen customization feature redesign" class="project-hero__image">
+                </figure>
+            </section>
+
+            <section class="project-tabs">
+                <div class="tabs">
+                    <div class="tabs__buttons">
+                        <button class="tabs__button tabs__button--active" data-tab="problem">Problem</button>
+                        <button class="tabs__button" data-tab="participation">Participation</button>
+                        <button class="tabs__button" data-tab="process">Process</button>
+                        <button class="tabs__button" data-tab="post-mortem">Post-Mortem</button>
+                        <button class="tabs__button" data-tab="projects">Projects</button>
+                    </div>
+
+                    <div class="tabs__content">
+                        <div class="tabs__panel tabs__panel--active" data-tab-id="problem">
+                            <div class="tab-intro">
+                                <p class="tab-intro__hook">An open-ended brief for a heritage brand.</p>
+                            </div>
+                            <div class="brief-cols">
+                                <div class="brief-col">
+                                    <p class="tab-intro__sub">Ballograf is an iconic Swedish pen brand, founded in 1945. As part of a service design course, our class was invited to strengthen their B2C channels and help the website work harder for the brand.</p>
+                                    <p>Our brief was open-ended: identify ways to strengthen Ballograf's B2C channels and help their website work harder for the brand. Through an early, hypothesis-based Customer Journey Map, we realized we couldn't compete on things like price or availability. So we shifted focus.</p>
+                                    <p style="margin-top: var(--space-lg);"><strong>What else could set Ballograf apart?</strong></p>
+                                </div>
+                                <div class="brief-col">
+                                    <div class="process-image-wrap">
+                                        <img src="assets/images/ballograf/old-design.webp" alt="Original Ballograf website" loading="lazy" data-zoom-levels="1,1.65,2.5,4">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tabs__panel" data-tab-id="participation">
+                            <div class="brief-cols">
+                                <div class="brief-col">
+                                    <h3 class="tab-label">What I did.</h3>
+                                    <ul>
+                                        <li><strong>Secondary research:</strong> competitive landscape, brand positioning, industry benchmarks.</li>
+                                        <li><strong>Survey design:</strong> structured questionnaire across pen enthusiast communities.</li>
+                                        <li><strong>Think-aloud testing:</strong> facilitated the majority of usability sessions.</li>
+                                        <li><strong>Stakeholder pitch:</strong> co-presented final recommendations to Ballograf.</li>
+                                    </ul>
+                                </div>
+                                <div class="brief-col">
+                                    <h3 class="tab-label">What we did.</h3>
+                                    <ul>
+                                        <li><strong>Course project:</strong> five students, approx. 3 weeks, real client.</li>
+                                        <li><strong>Methods:</strong> secondary research, heuristic evaluation, survey, Business Model Canvas, Customer Journey Map, Value Proposition Canvas, Service Blueprint.</li>
+                                        <li><strong>Prototype design:</strong> engraving landing page, &ldquo;Kan graveras&rdquo; emblem concept.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tabs__panel" data-tab-id="process">
+                            <div class="process-blocks">
+
+                                <!-- Block 1: Discovery — text left, stacked frameworks right -->
+                                <div class="process-block">
+                                    <div class="tab-intro">
+                                        <p class="tab-intro__hook">The best part was buried three clicks deep.</p>
+                                    </div>
+                                    <div class="process-block__row">
+                                        <div class="process-block__text">
+                                            <p class="tab-intro__sub">We followed a Double Diamond-inspired process, woven together with tailored service design methods. The feature with the strongest emotional response was the one users were least likely to find.</p>
+                                            <h3 class="tab-label">Discovery.</h3>
+                                            <ul>
+                                                <li><strong>Secondary research:</strong> mapped existing brands and competitors.</li>
+                                                <li><strong>Heuristic evaluation:</strong> Nielsen-based audit identifying 14 usability issues, prioritised by severity and effort.</li>
+                                                <li><strong>Factory visit:</strong> informed our early Service Blueprint, Business Model Canvas and gave us operational context overall.</li>
+                                                <li><strong>Survey:</strong> 200 respondents covering brand awareness, purchase intent, and what actually drives pen buying decisions.</li>
+                                                <li><strong>Interviews:</strong> 7 in-depth sessions and think-aloud tests, followed by a Customer Journey Map built from all previous data combined.</li>
+                                            </ul>
+                                        </div>
+                                        <div class="process-block__media">
+                                            <div class="process-stack">
+                                                <div class="process-stack__item">
+                                                    <div class="process-image-wrap process-image-wrap--no-border">
+                                                        <img src="assets/images/ballograf/blueprint.webp" alt="Service blueprint for Ballograf engraving flow" loading="lazy">
+                                                    </div>
+                                                    <p class="process-caption">Service Blueprint: operational mapping from our factory visit.</p>
+                                                </div>
+                                                <div class="process-stack__item">
+                                                    <div class="process-image-wrap process-image-wrap--no-border">
+                                                        <img src="assets/images/ballograf/business-model.webp" alt="Business Model Canvas mapping Ballograf's commercial structure" loading="lazy">
+                                                    </div>
+                                                    <p class="process-caption">Business Model Canvas: mapped early to focus the research.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Block 2: Engraving insight + value proposition — images left, text right -->
+                                <div class="process-block">
+                                    <div class="process-block__row process-block__row--reversed">
+                                        <div class="process-block__media">
+                                            <div class="process-stack">
+                                                <div class="process-stack__item">
+                                                    <div class="process-image-wrap process-image-wrap--no-border">
+                                                        <img src="assets/images/ballograf/customer-journey.webp" alt="Customer journey map for Ballograf pen buyers" loading="lazy">
+                                                    </div>
+                                                    <p class="process-caption">Customer Journey Map: engraving discovery buried at click depth three.</p>
+                                                </div>
+                                                <div class="process-stack__item">
+                                                    <div class="process-image-wrap process-image-wrap--no-border">
+                                                        <img src="assets/images/ballograf/value-proposition.webp" alt="Value Proposition Canvas aligning Ballograf differentiation strategy" loading="lazy">
+                                                    </div>
+                                                    <p class="process-caption">Value Proposition Canvas: differentiation over price competition.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="process-block__text">
+                                            <h3 class="tab-label">The engraving insight.</h3>
+                                            <p>Seven think-aloud sessions with pen enthusiasts and the <strong>Customer Journey Map</strong> surfaced something new for us. When participants stumbled on the engraving feature, their tone shifted. Surprise, then delight, then <strong>&ldquo;I didn&rsquo;t know they did this.&rdquo;</strong> A genuine emotional response to something personal.</p>
+                                            <p>This moment was happening several clicks deep into the website despite it's grand reception in our tests. We now realized that this feature should stand at the foundation for a <strong>strengthened USP:</strong> personalisation at source, direct from the manufacturer. The <strong>Value Proposition Canvas</strong> tied this back to both business goals and observed user needs, for the upcoming stakeholder pitch.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Block 3: Prototype — heading + bullets 2+2, images 1+1 below -->
+                                <div class="process-block">
+                                    <h3 class="tab-label">The prototype.</h3>
+                                    <div class="process-block__row">
+                                        <div>
+                                            <ul>
+                                                <li><strong>&ldquo;Kan graveras&rdquo; emblem:</strong> a brand-specific badge applied to every engravable product, signalling engraving as both a function and a premium touch.</li>
+                                                <li><strong>Primary navigation:</strong> engraving surfaced as a top-level destination with its own nav entry.</li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <ul>
+                                                <li><strong>Dedicated landing page:</strong> a standalone engraving page acting as the conversion destination, with a clear path to purchase.</li>
+                                                <li><strong>Product hierarchy:</strong> engravable products promoted within category listings to capture browse intent.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="process-block__row">
+                                        <div class="process-stack__item">
+                                            <div class="process-image-wrap">
+                                                <img src="assets/images/ballograf/old-design.webp" alt="Original Ballograf website with engraving feature buried deep" loading="lazy">
+                                            </div>
+                                            <p class="process-caption">Before: engraving buried three clicks deep, invisible to most users.</p>
+                                        </div>
+                                        <div class="process-stack__item">
+                                            <div class="process-image-wrap">
+                                                <img src="assets/images/ballograf/engraving.webp" alt="Ballograf engraving feature" loading="lazy">
+                                            </div>
+                                            <p class="process-caption">Prototype example: engraving emblem in product scroll.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Post-Mortem -->
+                        <div class="tabs__panel" data-tab-id="post-mortem">
+                            <div class="tab-intro">
+                                <p class="tab-intro__hook">Retrospect &amp; reflections.</p>
+                            </div>
+                            <div class="brief-cols">
+                                <div class="brief-col">
+                                    <ul>
+                                        <li>Recommendations landed well with the stakeholder, because they were grounded in observed behavior and built on existing brand strengths.</li>
+                                        <li>Mapping frameworks early focused the research. When you know what you're looking for, the data is more likely to tell a clearer story.</li>
+                                        <li>The engraving insight came from emotional reactions in testing, something a survey or complaint form easily could have missed.</li>
+                                        <li>This project taught me how strategic service design is directly linked to profitability, stronger branding, and better overall B2C performance.</li>
+                                    </ul>
+                                </div>
+                                <div class="brief-col">
+                                    <div class="process-image-wrap process-image-wrap--no-border">
+                                        <img src="assets/images/ballograf/engraving-prototype-menu.webp" alt="Prototype: engraving surfaced in primary navigation" loading="lazy">
+                                    </div>
+                                    <p class="process-caption">Prototype example: improved customization menu.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Other Cases -->
+                        <div class="tabs__panel" data-tab-id="projects">
+                            <div class="other-cases-grid">
+                                <a href="empley.html" class="project-card">
+                                    <div class="project-card__image-wrap">
+                                        <img src="assets/images/empley/hero.webp" alt="Workforce planning platform interface" class="project-card__image" loading="lazy">
+                                        <div class="project-card__overlay" aria-hidden="true">
+                                            <span class="project-card__overlay-text">View project</span>
+                                            <p class="project-card__overlay-description">Total UX &amp; UI redesign condensed into 10 hours per week, for 6 weeks.</p>
+                                            <div class="project-card__overlay-tags">
+                                                <span class="project-card__overlay-tag">UX &amp; UI Design</span>
+                                                <span class="project-card__overlay-tag">B2B SaaS</span>
+                                                <span class="project-card__overlay-tag">Agile Work</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="project-card__text">
+                                        <p class="project-hero__eyebrow">2026 &mdash; Early-stage startup project</p>
+                                        <h3 class="project-card__title">Workforce Planning Tool: from Cluttered to Clear</h3>
+                                    </div>
+                                </a>
+                                <a href="recorded-future.html" class="project-card">
+                                    <div class="project-card__image-wrap">
+                                        <img src="assets/images/recorded-future/hero.webp" alt="Cyber security platform dashboard" class="project-card__image" loading="lazy">
+                                        <div class="project-card__overlay" aria-hidden="true">
+                                            <span class="project-card__overlay-text">View project</span>
+                                            <p class="project-card__overlay-description">Systematic navigation research across four phases at Recorded Future.</p>
+                                            <div class="project-card__overlay-tags">
+                                                <span class="project-card__overlay-tag">UX Research</span>
+                                                <span class="project-card__overlay-tag">Usability Testing</span>
+                                                <span class="project-card__overlay-tag">Enterprise</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="project-card__text">
+                                        <p class="project-hero__eyebrow">2023 &mdash; Internship project</p>
+                                        <h3 class="project-card__title">My Research Impact at a Cyber Security Company</h3>
+                                    </div>
+                                </a>
+                                <a href="ellycare.html" class="project-card">
+                                    <div class="project-card__image-wrap">
+                                        <img src="assets/images/ellycare/hero.webp" alt="EllyCare inclusive healthcare platform" class="project-card__image" loading="lazy">
+                                        <div class="project-card__overlay" aria-hidden="true">
+                                            <span class="project-card__overlay-text">View project</span>
+                                            <p class="project-card__overlay-description">Accessibility-first redesign for a private ADHD and autism clinic.</p>
+                                            <div class="project-card__overlay-tags">
+                                                <span class="project-card__overlay-tag">UX &amp; UI Design</span>
+                                                <span class="project-card__overlay-tag">Accessibility</span>
+                                                <span class="project-card__overlay-tag">Branding</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="project-card__text">
+                                        <p class="project-hero__eyebrow">2026 &mdash; Recruitment task</p>
+                                        <h3 class="project-card__title">Inclusive Re-Design as Business Strategy</h3>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="site-footer">
+            <hr class="site-footer__separator" aria-hidden="true">
+            <div class="site-footer__inner">
+                <p>Copyright <span class="copyright-symbol">&copy;</span> 2026 &mdash; Felicia Borss&eacute;n</p>
+                <ul class="menu__list">
+                    <li class="menu__item">
+                        <a href="mailto:felicia.work.inbox@gmail.com" class="animated-link">
+                            <span class="animated-link__text">email</span><span class="animated-link__arrow"><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H5M10.5 3.5V9" stroke="#9C231F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                        </a>
+                    </li>
+                    <li class="menu__item">
+                        <a href="https://www.linkedin.com/in/felicia-borss%C3%A9n-008252253/" class="animated-link" target="_blank" rel="noopener">
+                            <span class="animated-link__text">linkedin</span><span class="animated-link__arrow"><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H5M10.5 3.5V9" stroke="#9C231F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                        </a>
+                    </li>
+                    <li class="menu__item">
+                        <a href="assets/images/global/cv-felicia-borssen-2026.pdf" class="animated-link" target="_blank" rel="noopener">
+                            <span class="animated-link__text">cv</span><span class="animated-link__arrow"><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H5M10.5 3.5V9" stroke="#9C231F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+
+    <script src="assets/js/menu.js" defer></script>
+    <script src="assets/js/tabs.js" defer></script>
+    <script src="assets/js/header.js" defer></script>
+    <script src="assets/js/lightbox.js" defer></script>
+</body>
+</html>

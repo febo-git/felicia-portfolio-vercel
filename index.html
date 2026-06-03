@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Felicia Borssen — UX Designer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100;200;300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script>if(window.location.hash){document.documentElement.style.scrollBehavior='auto';window.addEventListener('load',function(){window.scrollBy(0,100);requestAnimationFrame(function(){document.documentElement.style.scrollBehavior='';});});}</script>
+</head>
+<body>
+    <div class="container">
+        <!-- Site header -->
+        <header class="site-header">
+            <div class="site-header__inner">
+                <a href="index.html" class="site-header__branding">
+                    <img src="assets/images/global/logo.svg" alt="F.Borssén" width="181" height="30">
+                </a>
+                <nav class="menu">
+                    <button class="menu__toggle" aria-label="Open menu" aria-expanded="false">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                    <ul class="menu__list">
+                        <li class="menu__item">
+                            <a href="mailto:felicia.work.inbox@gmail.com" class="animated-link">
+                                <span class="animated-link__text">email</span><span class="animated-link__arrow"><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H5M10.5 3.5V9" stroke="#9C231F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                            </a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="https://www.linkedin.com/in/felicia-borss%C3%A9n-008252253/" class="animated-link" target="_blank" rel="noopener">
+                                <span class="animated-link__text">linkedin</span><span class="animated-link__arrow"><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H5M10.5 3.5V9" stroke="#9C231F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                            </a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="assets/images/global/cv-felicia-borssen-2026.pdf" class="animated-link" target="_blank" rel="noopener">
+                                <span class="animated-link__text">cv</span><span class="animated-link__arrow"><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H5M10.5 3.5V9" stroke="#9C231F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <hr class="separator site-header__separator" aria-hidden="true">
+        </header>
+
+        <!-- Responsive menu overlay (mobile) -->
+        <div class="responsive-menu" aria-hidden="true">
+            <button class="responsive-menu__close" aria-label="Close menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <ul class="responsive-menu__list">
+                <li><a href="index.html" class="responsive-menu__link">Work</a></li>
+                <li><a href="about.html" class="responsive-menu__link">CV</a></li>
+                <li><a href="https://www.linkedin.com/in/felicia-borss%C3%A9n-008252253/" class="responsive-menu__link" target="_blank" rel="noopener">LinkedIn</a></li>
+                <li><a href="mailto:felicia.work.inbox@gmail.com" class="responsive-menu__link">Email</a></li>
+            </ul>
+        </div>
+
+        <!-- Main content -->
+        <main class="site-content">
+            <!-- Hero -->
+            <section class="hero">
+                <div class="hero__inner">
+                    <div class="hero__text">
+                        <h1 class="hero__title">Hi, I'm Felicia. I used to fix teeth.<br>Now I fix <span class="hero__title-accent">design.</span></h1>
+                    </div>
+                    <figure class="hero__image-wrap">
+                        <img src="assets/images/global/hero-pic.webp" alt="Portrait of Felicia Borssen" class="hero__image">
+                    </figure>
+                </div>
+            </section>
+
+            <hr class="separator" aria-hidden="true">
+
+            <!-- Projects -->
+            <section class="projects" id="work">
+                <div class="projects__list">
+
+                    <a href="empley.html" class="project-card">
+                        <div class="project-card__image-wrap">
+                            <img src="assets/images/empley/hero.webp" alt="Workforce planning platform interface" class="project-card__image" loading="lazy">
+                            <div class="project-card__overlay" aria-hidden="true">
+                                <span class="project-card__overlay-text">View project</span>
+                                <p class="project-card__overlay-description">Total UX & UI redesign condensed into 10 hours per week, for 6 weeks.</p>
+                                <div class="project-card__overlay-tags">
+                                    <span class="project-card__overlay-tag">UX & UI Design</span>
+                                    <span class="project-card__overlay-tag">B2B SaaS</span>
+                                    <span class="project-card__overlay-tag">Agile Work</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card__text">
+                            <p class="project-hero__eyebrow">2026 — Early-stage startup project</p>
+                            <h3 class="project-card__title">Workforce Planning Tool: from Cluttered to Clear</h3>
+                            <p class="project-card__description">Total UX &amp; UI redesign condensed into 10 hours per week, for 6 weeks.</p>
+                        </div>
+                    </a>
+
+                    <a href="ellycare.html" class="project-card">
+                        <div class="project-card__image-wrap">
+                            <img src="assets/images/ellycare/hero.webp" alt="EllyCare inclusive healthcare platform" class="project-card__image" loading="lazy">
+                            <div class="project-card__overlay" aria-hidden="true">
+                                <span class="project-card__overlay-text">View project</span>
+                                <p class="project-card__overlay-description">Accessibility-first redesign for a private ADHD and autism clinic.</p>
+                                <div class="project-card__overlay-tags">
+                                    <span class="project-card__overlay-tag">UX & UI Design</span>
+                                    <span class="project-card__overlay-tag">Accessibility</span>
+
+                                    <span class="project-card__overlay-tag">Branding</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card__text">
+                            <p class="project-hero__eyebrow">2026 — Recruitment task</p>
+                            <h3 class="project-card__title">Inclusive Re-Design as Business Strategy</h3>
+                            <p class="project-card__description">Accessibility-first redesign for a private ADHD and autism clinic.</p>
+                        </div>
+                    </a>
+
+                    <a href="recorded-future.html" class="project-card">
+                        <div class="project-card__image-wrap">
+                            <img src="assets/images/recorded-future/hero.webp" alt="Cyber security platform dashboard" class="project-card__image" loading="lazy" style="object-position: 8% center;">
+                            <div class="project-card__overlay" aria-hidden="true">
+                                <span class="project-card__overlay-text">View project</span>
+                                <p class="project-card__overlay-description">Systematic navigation research at Recorded Future.</p>
+                                <div class="project-card__overlay-tags">
+                                    <span class="project-card__overlay-tag">UX Research</span>
+                                    <span class="project-card__overlay-tag">Usability Testing</span>
+                                    <span class="project-card__overlay-tag">Enterprise</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card__text">
+                            <p class="project-hero__eyebrow">2023 — Internship project</p>
+                            <h3 class="project-card__title">My Research Impact at a Cyber Security Company</h3>
+                            <p class="project-card__description">Systematic navigation research at Recorded Future.</p>
+                        </div>
+                    </a>
+
+                    <a href="ballograf.html" class="project-card">
+                        <div class="project-card__image-wrap">
+                            <img src="assets/images/ballograf/hero.webp" alt="Ballograf pen customization redesign" class="project-card__image" loading="lazy" style="object-fit: cover; object-position: center top;">
+                            <div class="project-card__overlay" aria-hidden="true">
+                                <span class="project-card__overlay-text">View project</span>
+                                <p class="project-card__overlay-description">Service design research for an iconic Swedish pen brand.</p>
+                                <div class="project-card__overlay-tags">
+                                    <span class="project-card__overlay-tag">Service Design</span>
+                                    <span class="project-card__overlay-tag">B2C</span>
+                                    <span class="project-card__overlay-tag">Branding</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card__text">
+                            <p class="project-hero__eyebrow">2023 — Academic project</p>
+                            <h3 class="project-card__title">How We Found Business Value in a Quiet Feature</h3>
+                            <p class="project-card__description">Service design research for an iconic Swedish pen brand.</p>
+                        </div>
+                    </a>
+
+                </div>
+            </section>
+
+            <!-- About -->
+            <section class="about-page" id="about">
+                <div class="about-page__grid">
+                    <div class="about-page__left">
+                        <div class="about-text">
+                            <div class="about-grid__col">
+                                <h3>Me, as a designer &amp; colleague</h3>
+                                <p>They called me "the squid" at my last job, at a private dental clinic in Gothenburg. Reception, clinical work and administration quickly grew into a bigger coordinating role because of my analogically percieved eight tentacles and natural people skills. Seventeen years in customer service, of which 10 where in patient care, taught me to read people accurately, ask better questions than the obvious ones, and keep my composure when things move fast.</p>
+                            </div>
+
+                                <img src="assets/images/global/about-me-photo.webp" alt="Felicia Borssen" class="about-photo" loading="lazy">
+
+
+                            <div class="about-grid__col">    
+                                <p>Moving into UX and digital design, feels like the same instincts applied to a different set of problems. While frameworks like the Double Diamond are a solid starting point, real-life processes rarely fit any method completely. My approach is rooted in flexibility, genuine curiosity and a knack for pattern recognition.</p>
+                                
+                                <p>That curiosity and pattern recognition is also why I studied frontend development, following my UX degree. I want to understand the whole picture, ship good code in my own products as well as in hand-offs to team mates. Cross-functional work (and potential future leadership roles) requires intersectional understanding and lingustics. Hence the code studies, for this designer.</p>
+                                    
+                                <p>With colleagues, I try to be direct and dependable. I prefer honest conversations, and I do my best work in teams where that goes both ways. I'm also quite fun to be around, according to reliable sources. When I'm not deep in research or fussing over interfaces, I spend time with my husband, son and our (many) cats. I also binge a lot of movies and tinker with music, which means I'm a splendid quiz mate and office party DJ, when needed.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-page__right">
+                        <h3>Product (designer) reviews</h3>
+                        <div class="testimonials-list">
+                            <div class="testimonial">
+                                <p class="testimonial__quote">&ldquo;A huge shoutout to our UI/UX rockstar Felicia who turned complex ideas into something that actually feels calm and intuitive to use.&rdquo;</p>
+                                <div class="testimonial__footer">
+                                    <img class="testimonial__avatar" src="assets/images/global/testimonial-melina.webp" alt="Melina Andersson" loading="lazy">
+                                    <div class="testimonial__meta">
+                                        <span class="testimonial__author">Melina Andersson <span class="testimonial__sep"></span></span>
+                                        <span class="testimonial__role">Co-Founder &amp; Head of Technology, Empley</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="testimonial">
+                                <p class="testimonial__quote">&ldquo;She consistently took on projects with ease and minimal guidance, impressing both colleagues and clients in her delivery. Her sharp critical thinking makes her a great design &amp; research asset.&rdquo;</p>
+                                <div class="testimonial__footer">
+                                    <img class="testimonial__avatar" src="assets/images/global/testimonial-ruxandra.webp" alt="Ruxandra Teodoru" loading="lazy">
+                                    <div class="testimonial__meta">
+                                        <span class="testimonial__author">Ruxandra Teodoru <span class="testimonial__sep"></span></span>
+                                        <span class="testimonial__role">Assistant Vice President UX, Recorded Future</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="testimonial">
+                                <p class="testimonial__quote">&ldquo;I was impressed with her facilitating skills. She runs interviews very professionally, asking the right questions and focusing on what is important.&rdquo;</p>
+                                <div class="testimonial__footer">
+                                    <img class="testimonial__avatar" src="assets/images/global/testimonial-svitlana.webp" alt="Svitlana Zhylenko" loading="lazy">
+                                    <div class="testimonial__meta">
+                                        <span class="testimonial__author">Svitlana Zhylenko <span class="testimonial__sep"></span></span>
+                                        <span class="testimonial__role">Senior Product Designer, N-iX</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="testimonial">
+                                <p class="testimonial__quote">&ldquo;She is a natural people person. This not only shows in how quickly she integrated into the team but also in how easily she led user interviews from the first try.&rdquo;</p>
+                                <div class="testimonial__footer">
+                                    <img class="testimonial__avatar" src="assets/images/global/testimonial-anna.webp" alt="Anna Ratkai" loading="lazy">
+                                    <div class="testimonial__meta">
+                                        <span class="testimonial__author">Anna Ratkai <span class="testimonial__sep"></span></span>
+                                        <span class="testimonial__role">Senior UX Researcher, Recorded Future</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="testimonial">
+                                <p class="testimonial__quote">&ldquo;With a deep understanding of others and ability to see things that others often miss, Felicia has the ability to offer valuable insights and guidance to colleagues and friends.&rdquo;</p>
+                                <div class="testimonial__footer">
+                                    <img class="testimonial__avatar" src="assets/images/global/testimonial-amanda.webp" alt="Amanda Reesalu" loading="lazy">
+                                    <div class="testimonial__meta">
+                                        <span class="testimonial__author">Amanda Reesalu <span class="testimonial__sep"></span></span>
+                                        <span class="testimonial__role">Senior Growth Designer, Recorded Future</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <hr class="site-footer__separator" aria-hidden="true">
+            <div class="site-footer__inner">
+                <p>Copyright <span class="copyright-symbol">&copy;</span> 2026 &mdash; Felicia Borss&eacute;n</p>
+                <ul class="menu__list">
+                    <li class="menu__item">
+                        <a href="mailto:felicia.work.inbox@gmail.com" class="animated-link">
+                            <span class="animated-link__text">email</span><span class="animated-link__arrow"><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H5M10.5 3.5V9" stroke="#9C231F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                        </a>
+                    </li>
+                    <li class="menu__item">
+                        <a href="https://www.linkedin.com/in/felicia-borss%C3%A9n-008252253/" class="animated-link" target="_blank" rel="noopener">
+                            <span class="animated-link__text">linkedin</span><span class="animated-link__arrow"><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H5M10.5 3.5V9" stroke="#9C231F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                        </a>
+                    </li>
+                    <li class="menu__item">
+                        <a href="assets/images/global/cv-felicia-borssen-2026.pdf" class="animated-link" target="_blank" rel="noopener">
+                            <span class="animated-link__text">cv</span><span class="animated-link__arrow"><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H5M10.5 3.5V9" stroke="#9C231F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+
+    <script src="assets/js/menu.js" defer></script>
+    <script src="assets/js/header.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+_backup_*
+*.bak
+.DS_Store
+**/.DS_Store
+.vscode
+assets/images/ballograf/engraving-prototype-site.png
+assets/images/ballograf/engraving-prototype-menu.png

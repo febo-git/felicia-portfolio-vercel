@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workforce Planning — Felicia Borssen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100;200;300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="page-empley">
+    <div class="container">
+        <!-- Site header -->
+        <header class="site-header">
+            <div class="site-header__inner">
+                <a href="index.html" class="site-header__branding">
+                    <img src="assets/images/global/logo.svg" alt="F.Borssén" width="181" height="30">
+                </a>
+                <nav class="menu">
+                    <button class="menu__toggle" aria-label="Open menu" aria-expanded="false">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                    <ul class="menu__list">
+                        <li class="menu__item">
+                            <a href="mailto:felicia.work.inbox@gmail.com" class="animated-link">
+                                <span class="animated-link__text">email</span><span class="animated-link__arrow"><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H5M10.5 3.5V9" stroke="#9C231F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                            </a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="https://www.linkedin.com/in/felicia-borss%C3%A9n-008252253/" class="animated-link" target="_blank" rel="noopener">
+                                <span class="animated-link__text">linkedin</span><span class="animated-link__arrow"><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H5M10.5 3.5V9" stroke="#9C231F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                            </a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="assets/images/global/cv-felicia-borssen-2026.pdf" class="animated-link" target="_blank" rel="noopener">
+                                <span class="animated-link__text">cv</span><span class="animated-link__arrow"><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H5M10.5 3.5V9" stroke="#9C231F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <hr class="separator site-header__separator" aria-hidden="true">
+        </header>
+
+        <!-- Responsive menu overlay -->
+        <div class="responsive-menu" aria-hidden="true">
+            <button class="responsive-menu__close" aria-label="Close menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <ul class="responsive-menu__list">
+                <li><a href="index.html" class="responsive-menu__link">Work</a></li>
+                <li><a href="about.html" class="responsive-menu__link">CV</a></li>
+                <li><a href="https://www.linkedin.com/in/felicia-borss%C3%A9n-008252253/" class="responsive-menu__link" target="_blank" rel="noopener">LinkedIn</a></li>
+                <li><a href="mailto:felicia.work.inbox@gmail.com" class="responsive-menu__link">Email</a></li>
+            </ul>
+        </div>
+
+        <!-- Main content -->
+        <main class="site-content">
+
+            <!-- Hero -->
+            <section class="project-hero">
+                <div class="project-hero__header">
+                    <p class="project-hero__eyebrow">UX &amp; UI Design &mdash; B2B SaaS &mdash; Design System</p>
+                    <h1>Workforce Planning Tool: from Cluttered to Clear</h1>
+                </div>
+                <figure class="project-hero__image-wrap">
+                    <img src="assets/images/empley/hero.webp" alt="Workforce planning platform redesign — new dashboard overview" class="project-hero__image project-hero__image--full">
+                </figure>
+            </section>
+
+            <!-- Tabs -->
+            <section class="project-tabs">
+                <div class="tabs">
+                    <div class="tabs__buttons">
+                        <button class="tabs__button tabs__button--active" data-tab="problem">Problem</button>
+                        <button class="tabs__button" data-tab="participation">Participation</button>
+                        <button class="tabs__button" data-tab="process">Process</button>
+                        <button class="tabs__button" data-tab="post-mortem">Post-Mortem</button>
+                        <button class="tabs__button" data-tab="projects">Projects</button>
+                    </div>
+
+                    <div class="tabs__content">
+
+                        <!-- Brief -->
+                        <div class="tabs__panel tabs__panel--active" data-tab-id="problem">
+                            <div class="tab-intro">
+                                <p class="tab-intro__hook">No designer. Six weeks.</p>
+                            </div>
+                            <div class="tab-cols">
+                                <div>
+                                    <p class="tab-intro__sub">When I joined this young startup in December of 2025, the product was technically solid, but visually unconvincing. It was built by (and for) developers.</p>
+                                    <h3 class="tab-label">The issues.</h3>
+                                    <p>Confusing hierarchy, dark and inconsistent color theme, mixed fonts and mixed component styles. This meant a low-trust feel and difficulty scanning and understanding what needed attention. There was no design system and no prior design decisions to build from.</p>
+                                    <h3 class="tab-label">The constraints.</h3>
+                                    <p>Approximately 10 hours a week, alongside full-time studies, job hunting, and a one-year-old at home. Six working weeks total, Christmas break included(!). Two of us: me on design, Melina Andersson on fullstack development. No users to test with, no research budget, and no structured codebase access.</p>
+                                </div>
+                                <div class="tab-cols__aside">
+                                    <div class="process-image-wrap process-image-wrap--scaled">
+                                        <img src="assets/images/empley/old-filtering-example.webp" alt="Old filter UI before redesign" loading="lazy">
+                                    </div>
+                                    <p class="process-caption">UX Designers worldwide: <em>*screams internally*</em></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- My Role -->
+                        <div class="tabs__panel" data-tab-id="participation">
+                            <div class="tab-intro">
+                                <p class="tab-intro__hook">Sole UX &amp; UI Designer.</p>
+                            </div>
+                            <div class="brief-cols">
+                                <div class="brief-col">
+                                    <p class="tab-intro__sub">As the first and only (actual) designer, I owned everything from brand analysis to micro-interaction decisions. Melina, my genuinely brilliant fullstack developer, was simultaneously writing and shipping the product. Handoffs needed to be clear enough to implement without back-and-forth we didn't have time for.</p>
+                                    <h3 class="tab-label">My design work.</h3>
+                                    <ul>
+                                        <li>Brand strategy, present and future.</li>
+                                        <li>Interaction and component design.</li>
+                                        <li>Information architecture across the entire product.</li>
+                                        <li>Brand asset updates for favicon, logos, CMYK print files.</li>
+                                    </ul>
+                                </div>
+                                <div class="brief-col">
+                                    <h3 class="tab-label">My workflow and delivery.</h3>
+                                    <p>There wasn't time to learn the perfect vibe coding workflow, yet. But I gave myself the time to sit down, brainstorm and draw up an AI workflow for myself.</p>
+                                    <ol class="accented-list">
+                                        <li>I set up Southleft's "figma-console-mcp" by TJ Pitre, instead of Figma's official MCP, since it was technically superior.</li>
+                                        <li>I got that MCP connection to automate repetitive and time-consuming tasks in the design system and during the prototype phase.</li>
+                                        <li>When the prototype felt like a fleshed-out skeleton, I linked both it and the design system as a reference, into Figma Make.</li>
+                                        <li>This meant faster iterations with better results, and decent zipped React files, for my developer.</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Process -->
+                        <div class="tabs__panel" data-tab-id="process">
+                            <div class="process-blocks">
+
+                                <!-- Block 1: hook/lead + visual direction left, logos right -->
+                                <div class="process-block">
+                                    <div class="tab-intro">
+                                        <p class="tab-intro__hook">Ship now. Fix it in post.</p>
+                                    </div>
+                                    <div class="process-block__row process-block__row--centered">
+                                        <div class="process-block__text">
+                                            <p class="tab-intro__sub">Six weeks is too short for a full rebrand and exactly long enough to set one in motion. The work ran on two tracks simultaneously: ship a beta-ready product, and lock in a visual direction the founders could build toward after launch.</p>
+                                            <h3 class="tab-label">Visual direction.</h3>
+                                            <p>My deep-dive competitor analysis established where Empley sat in the market and where it could go. The proposed overall rebrand direction (Space Grotesk font, orange and purple accent colors) was approved by the founders as the next big design system task for me, after launch.</p>
+                                            <p>For beta, I decided on the path of least resistance, until time for a bigger re-brand was possible. This meant white base, with green and black primary accents, to keep everything aligned with existing materials.</p>
+                                        </div>
+                                        <div class="process-block__media">
+                                            <div class="logo-pair">
+                                                <div class="logo-pair__item">
+                                                    <div class="process-image-wrap process-image-wrap--logo process-image-wrap--no-lightbox">
+                                                        <img src="assets/images/empley/logo-current.svg" alt="Current Empley logo" loading="lazy">
+                                                    </div>
+                                                    <p class="process-caption">Current logo.</p>
+                                                </div>
+                                                <div class="logo-pair__item">
+                                                    <div class="process-image-wrap process-image-wrap--logo process-image-wrap--no-lightbox">
+                                                        <img src="assets/images/empley/logo-new.svg" alt="Proposed new Empley logo" loading="lazy">
+                                                    </div>
+                                                    <p class="process-caption">My logo.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Block 2: Dashboard — images left, text right -->
+                                <div class="process-block">
+                                    <div class="process-block__row">
+                                        <div class="process-block__media">
+                                            <div class="process-stack">
+                                                <div class="process-stack__item">
+                                                    <div class="process-image-wrap">
+                                                        <img src="assets/images/empley/overview-before.webp" alt="Dashboard overview before redesign" loading="lazy">
+                                                    </div>
+                                                    <p class="process-caption">Before: developer-built, dark theme, no visual hierarchy.</p>
+                                                </div>
+                                                <div class="process-stack__item">
+                                                    <div class="process-image-wrap">
+                                                        <img src="assets/images/empley/overview-new.webp" alt="Dashboard overview after redesign" loading="lazy">
+                                                    </div>
+                                                    <p class="process-caption">After: light theme, simplified architecture, demo-ready panels.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="process-block__text process-block__text--timeline">
+                                            <h3 class="tab-label">Dashboard.</h3>
+                                            <h3 class="tab-label tab-label--sub">Before</h3>
+                                            <ul>
+                                                <li>No real product data yet, which made the huge metrics a waste of (important) space.</li>
+                                                <li>Developer-built dark theme with no visual system.</li>
+                                                <li>Metric boxes exposed empty states with no explanation.</li>
+                                                <li>Icon clutter competing with the data.</li>
+                                                <li>No clear hierarchy or entry points for sales walkthroughs.</li>
+                                            </ul>
+                                            <h3 class="tab-label tab-label--sub">After</h3>
+                                            <ul>
+                                                <li>Light theme with simplified, legible architecture.</li>
+                                                <li>Context messaging on empty metric boxes: demo-appropriate, not broken-looking.</li>
+                                                <li>Icon language stripped back to essentials.</li>
+                                                <li>Two feature entry-point panels built specifically for sales walkthroughs.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Block 3: Form Redesign — text left, images right -->
+                                <div class="process-block">
+                                    <div class="process-block__row">
+                                        <div class="process-block__text process-block__text--timeline">
+                                            <h3 class="tab-label">Plan creation form.</h3>
+                                            <h3 class="tab-label tab-label--sub">Before</h3>
+                                            <ul>
+                                                <li>Flat pill structure, fine at small scale but unmanageable for enterprise clients with hundreds of departments.</li>
+                                                <li>HR teams had to scroll through everything: no filtering, no grouping.</li>
+                                                <li>Broke visually and functionally at enterprise scale.</li>
+                                            </ul>
+                                            <h3 class="tab-label tab-label--sub">After</h3>
+                                            <ul>
+                                                <li><strong>Progressive disclosure:</strong> tree hierarchy for top-level categories, accordions for sub-departments.</li>
+                                                <li>Checkboxes for multi-select across nested levels.</li>
+                                                <li>Designed to scale from a 20-person company to a 20,000-person one.</li>
+                                                <li>Evolved into a modal format mid-sprint as the plan management structure clarified.</li>
+                                            </ul>
+                                        </div>
+                                        <div class="process-block__media">
+                                            <div class="process-stack">
+                                                <div class="process-stack__item">
+                                                    <div class="process-image-wrap">
+                                                        <img src="assets/images/empley/planview-before.webp" alt="Plan creation form before redesign" loading="lazy">
+                                                    </div>
+                                                    <p class="process-caption">Before: flat pill structure, breaks at enterprise scale.</p>
+                                                </div>
+                                                <div class="process-stack__item">
+                                                    <div class="process-image-wrap">
+                                                        <img src="assets/images/empley/planview-new.webp" alt="Plan creation form after redesign" loading="lazy">
+                                                    </div>
+                                                    <p class="process-caption">After: progressive disclosure, tree hierarchy, sub-department accordions.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Block 4: Five-step workflow — images left, text right -->
+                                <div class="process-block">
+                                    <div class="process-block__row">
+                                        <div class="process-block__media">
+                                            <div class="process-image-wrap">
+                                                <img src="assets/images/empley/step-1-scope.webp" alt="Step 1: Scope, the first of five workforce planning workflow steps" loading="lazy">
+                                            </div>
+                                        </div>
+                                        <div class="process-block__text">
+                                            <h3 class="tab-label">The five-step workflow.</h3>
+                                            <p>The "create plan" flow was complex, packing an information-heavy enterprise HR landscape into five steps. While intermediate users could navigate this easily, beginners risked getting lost in metrics like FTE gaps, attrition forecasts, and cost columns. To balance this data-density, contextual guideposts were crucial.</p>
+                                            
+                                            <ul>
+                                                <li>I designed and built the step progress bar in React as well as context-aware accordion menus on each step, with "how and why"-info pertaining to each step.</li>
+                                                <li>Every single step was incredibly data-heavy, requiring careful placement of metric cards, industry benchmarks, and dense tables.</li>
+                                            </ul>
+
+                                            <h3 class="tab-label">Shipped with reservations.</h3>
+                                            <p>I had layout and hierarchy opinions about nearly every table. While I managed to polish the visual hierarchy and add some UX friendly queues before launch. The deeper structural logic, remained a work in progress and the company went into hiatus before I could fully untangle logic, look and feel.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Post-Mortem -->
+                        <div class="tabs__panel" data-tab-id="post-mortem">
+                            <div class="tab-intro">
+                                <p class="tab-intro__hook">It shipped. On time.</p>
+                            </div>
+                            <div class="brief-cols">
+                                <div class="brief-col">
+                                    <p class="tab-intro__sub">All core workflows launched in production on schedule. My purposely scaled down and simple design system, meant that our developer could focus on heavy building and logic, instead of design tweaks.</p>
+                                    <h3 class="tab-label">What landed in production.</h3>
+                                    <ul>
+                                        <li>New component library, light theme, consistent hierarchy across every screen.</li>
+                                        <li>All five workforce planning workflow steps redesigned.</li>
+                                        <li>Scalable plan creation form, replacing the flat pill structure.</li>
+                                        <li>Dashboard with sales-demo-ready entry-point panels.</li>
+                                        <li>Updated brand assets across digital and print.</li>
+                                    </ul>
+                                    <h3 class="tab-label">Retrospect & reflections.</h3>
+                                    <p>Constraints can be a gift. Working 10 hours a week meant every decision had to earn its place; there was no room for redesigning for its own sake. It also forced an urgent need for an efficient AI workflow, which in turn accelerated my skills.</p>
+                                    <p>If we had survived the classic startup "valley of death" and I'd worked on this full-time, I would have implemented textbook UX methodology like the Double Diamond—research, user testing etc.—as well as some rigorous design system work. But learning to let go of pixel perfection and not adjust every single detail was probably really good for me.</p>
+                                    <p>Ultimately, I view these few months as an intensive bootcamp, teaching me lessons only a (sometimes chaotic) startup can.</p>
+                                </div>
+                                <div class="brief-col">
+                                    <h3 class="tab-label">In their words.</h3>
+                                    <div class="project-quotes">
+                                        <blockquote class="project-quote">
+                                            <p>&ldquo;Our UI/UX rockstar Felicia turned complex ideas into something that actually feels calm and intuitive to use.&rdquo;</p>
+                                            <footer>
+                                                <span class="project-quote__author">Melina Andersson</span>
+                                                <span class="project-quote__role">Co-founder &amp; Head of Technology, Empley</span>
+                                            </footer>
+                                        </blockquote>
+                                        <blockquote class="project-quote">
+                                            <p>&ldquo;Special thanks to Felicia Borss&eacute;n for making a minor miracle happen in very short time.&rdquo;</p>
+                                            <footer>
+                                                <span class="project-quote__author">Johanna Kropp</span>
+                                                <span class="project-quote__role">Board Member, Empley</span>
+                                            </footer>
+                                        </blockquote>
+                                    </div>
+                                    <div class="process-stack__item">
+                                        <div class="process-image-wrap">
+                                            <img src="assets/images/empley/team-photo.webp" alt="Felicia and Melina celebrating the Empley beta launch over dinner" loading="lazy">
+                                        </div>
+                                        <p class="process-caption">Melina and I, celebrating the beta launch over a well-earned dinner.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Other Cases -->
+                        <div class="tabs__panel" data-tab-id="projects">
+                            <div class="other-cases-grid">
+                                <a href="recorded-future.html" class="project-card">
+                                    <div class="project-card__image-wrap">
+                                        <img src="assets/images/recorded-future/hero.webp" alt="Cyber security platform dashboard" class="project-card__image" loading="lazy">
+                                        <div class="project-card__overlay" aria-hidden="true">
+                                            <span class="project-card__overlay-text">View project</span>
+                                            <p class="project-card__overlay-description">Systematic navigation research across four phases at Recorded Future.</p>
+                                            <div class="project-card__overlay-tags">
+                                                <span class="project-card__overlay-tag">UX Research</span>
+                                                <span class="project-card__overlay-tag">Usability Testing</span>
+                                                <span class="project-card__overlay-tag">Enterprise</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="project-card__text">
+                                        <p class="project-hero__eyebrow">2023 &mdash; Internship project</p>
+                                        <h3 class="project-card__title">My Research Impact at a Cyber Security Company</h3>
+                                    </div>
+                                </a>
+                                <a href="ellycare.html" class="project-card">
+                                    <div class="project-card__image-wrap">
+                                        <img src="assets/images/ellycare/hero.webp" alt="EllyCare inclusive healthcare platform" class="project-card__image" loading="lazy">
+                                        <div class="project-card__overlay" aria-hidden="true">
+                                            <span class="project-card__overlay-text">View project</span>
+                                            <p class="project-card__overlay-description">Accessibility-first redesign for a private ADHD and autism clinic.</p>
+                                            <div class="project-card__overlay-tags">
+                                                <span class="project-card__overlay-tag">UX &amp; UI Design</span>
+                                                <span class="project-card__overlay-tag">Accessibility</span>
+                                                <span class="project-card__overlay-tag">Branding</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="project-card__text">
+                                        <p class="project-hero__eyebrow">2026 &mdash; Recruitment task</p>
+                                        <h3 class="project-card__title">Inclusive Re-Design as Business Strategy</h3>
+                                    </div>
+                                </a>
+                                <a href="ballograf.html" class="project-card">
+                                    <div class="project-card__image-wrap">
+                                        <img src="assets/images/ballograf/hero.webp" alt="Ballograf pen customization redesign" class="project-card__image" loading="lazy">
+                                        <div class="project-card__overlay" aria-hidden="true">
+                                            <span class="project-card__overlay-text">View project</span>
+                                            <p class="project-card__overlay-description">Service design research for an iconic Swedish pen brand.</p>
+                                            <div class="project-card__overlay-tags">
+                                                <span class="project-card__overlay-tag">Service Design</span>
+                                                <span class="project-card__overlay-tag">B2C</span>
+                                                <span class="project-card__overlay-tag">Branding</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="project-card__text">
+                                        <p class="project-hero__eyebrow">2023 &mdash; Academic project</p>
+                                        <h3 class="project-card__title">How We Found Business Value in a Quiet Feature</h3>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+
+        </main>
+
+        <footer class="site-footer">
+            <hr class="site-footer__separator" aria-hidden="true">
+            <div class="site-footer__inner">
+                <p>Copyright <span class="copyright-symbol">&copy;</span> 2026 &mdash; Felicia Borss&eacute;n</p>
+                <ul class="menu__list">
+                    <li class="menu__item">
+                        <a href="mailto:felicia.work.inbox@gmail.com" class="animated-link">
+                            <span class="animated-link__text">email</span><span class="animated-link__arrow"><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H5M10.5 3.5V9" stroke="#9C231F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                        </a>
+                    </li>
+                    <li class="menu__item">
+                        <a href="https://www.linkedin.com/in/felicia-borss%C3%A9n-008252253/" class="animated-link" target="_blank" rel="noopener">
+                            <span class="animated-link__text">linkedin</span><span class="animated-link__arrow"><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H5M10.5 3.5V9" stroke="#9C231F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                        </a>
+                    </li>
+                    <li class="menu__item">
+                        <a href="assets/images/global/cv-felicia-borssen-2026.pdf" class="animated-link" target="_blank" rel="noopener">
+                            <span class="animated-link__text">cv</span><span class="animated-link__arrow"><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 10.5L10.5 3.5M10.5 3.5H5M10.5 3.5V9" stroke="#9C231F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+
+    <script src="assets/js/menu.js" defer></script>
+    <script src="assets/js/tabs.js" defer></script>
+    <script src="assets/js/header.js" defer></script>
+    <script src="assets/js/lightbox.js" defer></script>
+</body>
+</html>
