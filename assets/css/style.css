@@ -866,14 +866,26 @@ h3 {
     margin-bottom: var(--space-sm);
 }
 
+/* About photo — newspaper float inside the first text block. Text wraps
+   around it on the right, sized as a thumbnail. */
 .about-photo {
-    width: 300px;
-    height: 300px;
+    float: right;
+    width: clamp(120px, 32%, 200px);
+    height: auto;
+    aspect-ratio: 3 / 4;
     border-radius: var(--radius-sm);
     object-fit: cover;
-
     filter: grayscale(100%);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    margin: 4px 0 12px 16px;
+    shape-outside: margin-box;
+}
+
+/* Clear the float at the end of the column so the next block sits cleanly */
+.about-grid__col::after {
+    content: '';
+    display: block;
+    clear: both;
 }
 
 .about-page__right > h3 {
@@ -2540,3 +2552,1281 @@ body.tabs-stuck .project-tabs .tabs__buttons::after {
         scroll-behavior: auto;
     }
 }
+
+
+/* =============================================================================
+   MOBILE OVERHAUL
+   ============================================================================
+   Goal: a phone experience that's a real layout, not a shrunk desktop.
+   Order:
+     A. Mobile menu overlay (redesigned, brand-consistent)
+     B. <= 768px — phone + small tablet
+     C. <= 480px — small phone tightening
+   ============================================================================= */
+
+
+/* ---------- A. Mobile menu overlay ---------------------------------------- */
+
+/* Base: present at <=768px, hidden visually until --visible class. Wins over
+   the bare-bones .responsive-menu rules earlier in the file. */
+.responsive-menu {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100dvh;
+    z-index: 200;
+    background-color: var(--color-bg);
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 280ms ease, visibility 0s linear 280ms;
+}
+
+.responsive-menu--visible {
+    display: flex;          /* override earlier `display: grid` rule */
+    place-items: initial;   /* neutralize earlier `place-items: center` rule */
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition: opacity 280ms ease;
+}
+
+/* Hide entirely on desktop — the inline menu is shown instead */
+@media (min-width: 769px) {
+    .responsive-menu,
+    .responsive-menu--visible {
+        display: none;
+    }
+}
+
+.responsive-menu__inner {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 12px 24px 32px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 360ms ease 60ms, transform 360ms ease 60ms;
+}
+
+.responsive-menu--visible .responsive-menu__inner {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.responsive-menu__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: var(--header-height);
+}
+
+.responsive-menu__branding {
+    display: inline-flex;
+    align-items: center;
+}
+
+.responsive-menu__branding img {
+    height: 22px;
+    width: auto;
+}
+
+/* Override the absolute-positioned close button rule from earlier in the file */
+.responsive-menu__close {
+    position: static;
+    top: auto;
+    right: auto;
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: -10px;
+    color: var(--color-text);
+    transition: color 200ms ease;
+}
+
+.responsive-menu__close:hover,
+.responsive-menu__close:focus-visible {
+    color: var(--color-accent);
+}
+
+.responsive-menu__close svg {
+    width: 24px;
+    height: 24px;
+}
+
+.responsive-menu__sep {
+    border: none;
+    border-top: 1px dashed #000;
+    opacity: 0.25;
+    height: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.responsive-menu__nav {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding-top: 28px;
+    min-height: 0;
+}
+
+.responsive-menu__primary {
+    list-style: none;
+    margin: 0 0 36px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.responsive-menu__primary li {
+    border-top: 1px dashed rgba(0, 0, 0, 0.18);
+}
+
+.responsive-menu__primary li:last-child {
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.18);
+}
+
+.responsive-menu__primary a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    padding: 22px 4px;
+    min-height: 44px;
+    font-family: var(--font-heading);
+    font-size: clamp(28px, 8vw, 36px);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color 220ms ease;
+}
+
+.responsive-menu__primary a:hover,
+.responsive-menu__primary a:focus-visible {
+    color: var(--color-accent);
+}
+
+.responsive-menu__primary-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    color: var(--color-accent);
+    flex-shrink: 0;
+    transition: transform 280ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.responsive-menu__primary a:hover .responsive-menu__primary-arrow,
+.responsive-menu__primary a:focus-visible .responsive-menu__primary-arrow {
+    transform: translateX(4px);
+}
+
+/* Current-page indicator: small red dot before the label */
+.responsive-menu__primary a[aria-current="page"] {
+    color: var(--color-accent);
+}
+
+.responsive-menu__primary a[aria-current="page"] .responsive-menu__primary-label::before {
+    content: '';
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--color-accent);
+    margin-right: 12px;
+    vertical-align: 0.32em;
+}
+
+.responsive-menu__eyebrow {
+    font-family: var(--font-family);
+    font-size: 11px;
+    font-weight: var(--font-weight-extrabold);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--color-accent);
+    margin: 0 0 16px;
+}
+
+.responsive-menu__contact {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.responsive-menu__contact .animated-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 0;
+    min-height: 44px;
+    width: fit-content;
+}
+
+.responsive-menu__contact .animated-link__text {
+    font-size: 18px;
+    font-weight: var(--font-weight-medium);
+    text-transform: lowercase;
+}
+
+.responsive-menu__contact .animated-link__arrow {
+    display: inline-flex;
+    width: 18px;
+    height: 18px;
+    margin-left: 10px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: 0;
+}
+
+/* Hide the legacy link style — markup is being updated to use the new structure */
+.responsive-menu__list { display: none; }
+.responsive-menu .responsive-menu__link { display: none; }
+
+/* Lock body scroll while menu is open (set by menu.js) */
+body.menu-open {
+    overflow: hidden;
+    /* Prevent iOS Safari rubber-band scrolling under the overlay */
+    touch-action: none;
+}
+
+
+/* ---------- B. <= 768px — phone + small tablet --------------------------- */
+
+@media (max-width: 768px) {
+
+    /* B.0 — Fluid type tokens just for mobile: widen the bottom of the clamp
+       so headings shrink gracefully instead of getting stuck at the desktop
+       minimum at 320px. These override the project-wide tokens within mobile. */
+    :root {
+        --font-size-base: clamp(15px, 0.4vw + 14px, 18px);
+        --font-size-sm:   clamp(13px, 0.3vw + 12px, 16px);
+        --font-size-xs:   clamp(12px, 0.2vw + 11px, 14px);
+        --font-size-md:   clamp(16px, 0.7vw + 14px, 20px);
+        --font-size-lg:   clamp(17px, 1.4vw + 14px, 24px);
+        --font-size-xl:   clamp(19px, 2vw + 14px, 28px);
+        --font-size-2xl:  clamp(22px, 2.8vw + 15px, 32px);
+        --font-size-3xl:  clamp(28px, 5vw + 16px, 48px);
+    }
+
+    /* B.1 — Container / global spacing */
+    .site-content,
+    .site-footer {
+        padding: 0 20px;
+    }
+
+    /* B.2 — Header: drop the hamburger entirely, surface email/linkedin/cv
+       inline so the user always has one tap to contact. Tighten type so the
+       three labels + logo fit at 360px. */
+    .menu__toggle {
+        display: none !important;
+    }
+
+    .menu__list {
+        display: flex !important;
+        gap: clamp(12px, 4vw, 22px);
+        align-items: center;
+    }
+
+    .menu .animated-link__text {
+        font-size: clamp(12px, 3.2vw, 14px);
+        letter-spacing: 0.04em;
+    }
+
+    .menu .animated-link__arrow {
+        display: none;
+    }
+
+    .animated-link__text::after {
+        bottom: -2px;
+    }
+
+    .site-header__inner {
+        padding: 0 20px;
+    }
+
+    /* Hide the unused mobile overlay entirely on mobile too — the inline
+       links replace it. Earlier rules show it via the hamburger; we kill it. */
+    .responsive-menu {
+        display: none !important;
+    }
+
+    body.menu-open {
+        overflow: auto;
+    }
+
+    /* B.3 — Hero: photo and headline as a pair on phone. Photo always on the
+       RIGHT via explicit order (not relying on source order so a future markup
+       change can't flip it). Image shrinks, title scales for legibility. */
+    .hero {
+        padding: 40px 0 48px;
+    }
+
+    .hero__inner {
+        flex-direction: row;
+        align-items: center;
+        gap: clamp(14px, 4vw, 24px);
+    }
+
+    .hero__text {
+        flex: 1 1 auto;
+        min-width: 0;
+        order: 1;
+    }
+
+    .hero__title {
+        white-space: normal;
+        font-size: clamp(22px, 5.8vw, 32px);
+        line-height: 1.22;
+        letter-spacing: -0.015em;
+        text-wrap: balance;
+    }
+
+    .hero__title-accent {
+        font-family: var(--font-accent);
+        font-weight: var(--font-weight-regular);
+        font-size: 1.45em;
+        line-height: 0.9;
+        margin-left: 0.04em;
+        display: inline-block;
+        transform: translateY(0.06em);
+    }
+
+    .hero__image-wrap {
+        flex: 0 0 auto;
+        order: 2;
+    }
+
+    .hero__image {
+        width: clamp(96px, 26vw, 140px);
+    }
+
+    /* B.4 — Projects section */
+    .projects {
+        padding: 56px 0 64px;
+    }
+
+    .projects__list {
+        gap: var(--space-2xl);
+        grid-template-columns: 1fr;
+    }
+
+    /* B.5 — Project cards: drop hover overlay (no hover on touch), surface
+       all info inline. Image becomes shorter so the text strip can carry
+       larger, more legible type — the title is the recruiter's first scan. */
+    .project-card {
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+    }
+
+    .project-card__image-wrap {
+        aspect-ratio: 2 / 1;
+    }
+
+    .project-card__overlay {
+        display: none;
+    }
+
+    .project-card__text {
+        gap: 8px;
+        padding: 18px 18px 22px;
+    }
+
+    .project-card .project-hero__eyebrow {
+        font-size: clamp(10.5px, 2.6vw, 12px);
+        letter-spacing: 0.07em;
+        white-space: normal;
+    }
+
+    .project-card__title {
+        font-size: clamp(17px, 4.6vw, 22px);
+        margin-top: 4px;
+        line-height: 1.25;
+        text-wrap: balance;
+    }
+
+    .project-card__description {
+        font-size: clamp(14px, 3.6vw, 17px);
+        line-height: 1.5;
+        color: var(--color-text-secondary);
+    }
+
+    /* B.6 — Project hero (case-study top) */
+    .project-hero {
+        padding: 32px 0 var(--space-xl);
+        gap: var(--space-xl);
+        max-width: 100%;
+    }
+
+    .project-hero__header {
+        gap: var(--space-md);
+    }
+
+    .project-hero__eyebrow {
+        font-size: clamp(10.5px, 2.6vw, 12px);
+        letter-spacing: 0.07em;
+        white-space: normal;
+    }
+
+    .project-hero h1 {
+        font-size: clamp(22px, 6.4vw, 36px);
+        line-height: 1.18;
+        letter-spacing: -0.015em;
+        white-space: normal;
+        text-wrap: balance;
+    }
+
+    .project-hero__image,
+    .project-hero__image--full {
+        aspect-ratio: 4 / 3;
+    }
+
+    /* B.7 — Case-study tabs: hidden on mobile. The accordion-mode JS converts
+       the tabs structure into a stack of accordion items (sticky headers,
+       chevron toggle). See the ACCORDION sections later in this file. */
+    .project-tabs {
+        margin: var(--space-md) 0 var(--space-2xl);
+    }
+
+    .project-tabs .tabs__buttons {
+        display: none;
+    }
+
+    /* B.8 — Tab panels: single-column reading */
+    .project-tabs .tabs__panel {
+        gap: 32px;
+        padding-top: var(--space-xl);
+        padding-bottom: var(--space-2xl);
+    }
+
+    /* Hook can use full width (was capped at 50% for two-col layouts) */
+    .tabs__panel > .tab-intro,
+    .process-block > .tab-intro {
+        max-width: 100%;
+        margin-bottom: 0;
+    }
+
+    /* Typography hierarchy on phone:
+         hook (big opening line)  >>  sub (lead paragraph)  >  tab-label (h3)
+       The hook is the section's headline, so it's clearly the biggest.
+       Sub is semibold, tab-label is bold-but-smaller-than-hook. Weight
+       difference between sub and tab-label gives clear separation at small
+       sizes where their pixel sizes are close. */
+    .tab-intro__hook {
+        font-size: clamp(24px, 6.4vw, 32px);
+        line-height: 1.18;
+        font-weight: var(--font-weight-bold);
+        margin-bottom: clamp(16px, 4vw, 28px);
+        text-wrap: balance;
+    }
+
+    .tab-intro__sub {
+        font-size: clamp(15px, 4vw, 18px);
+        line-height: 1.5;
+        font-weight: var(--font-weight-semibold);
+    }
+
+    .tab-label {
+        font-size: clamp(14px, 3.6vw, 17px);
+        line-height: 1.25;
+        font-weight: var(--font-weight-bold);
+        margin-top: clamp(20px, 5vw, 28px);
+        margin-bottom: clamp(6px, 1.8vw, 12px);
+    }
+
+    .tab-label--sub {
+        font-size: clamp(10px, 2.4vw, 11px);
+        font-weight: var(--font-weight-extrabold);
+        margin-top: clamp(16px, 4vw, 22px);
+    }
+
+    /* B.9 — tab-cols, brief-cols: stack, drop sticky */
+    .tab-cols,
+    .brief-cols {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .tab-cols__aside,
+    .brief-col:last-child,
+    .brief-cols--sticky-left .brief-col:first-child {
+        position: static !important;
+        top: auto !important;
+        max-width: 100%;
+        padding-top: 0;
+    }
+
+    /* B.10 — Process blocks: stack all variants, no sticky text columns */
+    .process-block {
+        padding: var(--space-2xl) 0;
+        gap: var(--space-lg);
+    }
+
+    .process-block__row,
+    .process-block__row--reversed,
+    .process-block__row--centered {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        align-items: start;
+    }
+
+    .process-block__text,
+    .process-block__media,
+    .process-block__media--sticky {
+        position: static !important;
+        top: auto !important;
+        max-width: 100%;
+        padding-top: 0 !important;
+    }
+
+    /* Process section that uses CSS columns:2 — collapse to 1 col */
+    .process-section > div:not(:has(img)):not(:has(.process-image-grid)):not(:has(.process-placeholder)):not(:has(.logo-comparison-grid)) {
+        columns: 1;
+        column-gap: 0;
+    }
+
+    .process-section .process-image-grid,
+    .process-section .process-placeholder--full,
+    .process-section .process-image-wrap,
+    .logo-comparison-grid {
+        max-width: 100%;
+    }
+
+    .process-image-grid {
+        gap: var(--space-sm);
+    }
+
+    /* B.11 — Logo pair: stack item -> column, un-rotate caption, drop divider */
+    .logo-pair {
+        gap: var(--space-xl);
+    }
+
+    .logo-pair__item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-sm);
+    }
+
+    .logo-pair__item .process-caption {
+        writing-mode: horizontal-tb;
+        transform: none;
+        text-align: left;
+        white-space: normal;
+    }
+
+    .logo-pair__item .process-image-wrap--logo img {
+        max-width: 70%;
+    }
+
+    .logo-pair__item:not(:first-child)::before {
+        display: none;
+    }
+
+    /* B.12 — Stack image sequence: tighter gap */
+    .process-stack {
+        gap: var(--space-lg) !important;
+    }
+
+    /* B.13 — Other-cases grid (Projects tab): stack on phone */
+    .other-cases-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+    }
+
+    /* B.14 — Quotes */
+    .project-quote {
+        padding-left: 14px;
+    }
+
+    /* B.15 — Logo comparison */
+    .logo-comparison-grid__item img {
+        max-height: 56px;
+        max-width: 100%;
+    }
+
+    /* B.16 — Captions: keep but smaller */
+    .process-caption {
+        font-size: 13px;
+        line-height: 1.45;
+    }
+
+    /* B.17 — Process image — slight nudge to fill full width with crisp edges */
+    .process-image-wrap {
+        border-radius: var(--radius-sm);
+    }
+
+    /* B.18 — CV sheet: stack sidebar above main */
+    .cv-sheet {
+        flex-direction: column;
+    }
+
+    .cv-sidebar {
+        width: 100%;
+        padding: 22px 20px 24px;
+        gap: var(--space-lg);
+    }
+
+    .cv-main {
+        padding: 22px 20px 28px;
+        border-left: none;
+        border-top: 1px dashed var(--color-border-light);
+    }
+
+    .cv-section-heading {
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-left: -20px;
+        margin-right: -20px;
+    }
+
+    .cv-entry-header {
+        flex-wrap: wrap;
+        row-gap: 2px;
+    }
+
+    /* B.19 — About page */
+    .about-page {
+        padding: 48px 0 64px;
+    }
+
+    .about-page__grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-2xl);
+    }
+
+    .about-page__right {
+        position: static;
+    }
+
+    .about-photo {
+        width: 100%;
+        max-width: 320px;
+        height: auto;
+        aspect-ratio: 1 / 1;
+    }
+
+    /* B.20 — Testimonials handled in the global redesign block below. */
+
+    /* B.21 — Footer: stacked + centered on phone. Copyright on top, the same
+       three links below — always visible (no scroll-up trick). */
+    .site-footer__inner {
+        flex-direction: column;
+        gap: var(--space-md);
+        height: auto;
+        padding: var(--space-lg) 0;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .site-footer__inner > p {
+        font-size: clamp(11px, 2.8vw, 13px);
+    }
+
+    .site-footer .menu__list {
+        display: flex !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        gap: clamp(18px, 5vw, 28px);
+        flex-wrap: nowrap;
+        justify-content: center;
+    }
+
+    .site-footer .animated-link__text {
+        font-size: clamp(12px, 3.4vw, 14px);
+    }
+
+    .site-footer .animated-link__arrow {
+        display: none;
+    }
+
+    body.header-hidden .site-footer .menu__list {
+        opacity: 1 !important;
+    }
+
+    /* B.22 — Lightbox: tighter padding on phone */
+    .lightbox__scene {
+        padding: 64px 12px 16px;
+    }
+
+    .lightbox__close {
+        top: 12px;
+        right: 12px;
+    }
+
+    /* B.23 — Animated link: pad for touch target without breaking inline flow */
+    .animated-link {
+        padding: 4px 0;
+    }
+
+    /* B.24 — Before/after stacked comparison */
+    .nav-before-after {
+        gap: 40px;
+    }
+
+    /* B.25 — homepage about-text: tighter column gap on phone now that the
+       photo is floated inside the first column (no big middle whitespace) */
+    .about-text {
+        gap: var(--space-md);
+    }
+
+    /* Photo: keep newspaper float, just shrink a touch on phone */
+    .about-text .about-photo {
+        width: clamp(110px, 36%, 160px);
+        margin: 4px 0 10px 14px;
+    }
+
+    /* B.26 — Section dashed separator — keep but tighten projects' inner padding */
+    .projects::after {
+        bottom: 0;
+    }
+
+    /* B.27 — Project-card overlay description hidden on landing (was already
+       hidden) — promote tags into the text strip instead, via JS-less CSS */
+    /* (No styles needed — html structure already has both card text and
+        overlay tags; we just hide overlay above and rely on text strip.) */
+
+    /* B.28 — Page-specific overrides for case studies (mobile resets) */
+    .page-empley .tabs__panel[data-tab-id="process"] .process-block:nth-child(4) .process-image-wrap img {
+        min-height: 0;
+        object-fit: cover;
+        object-position: top;
+    }
+
+    .page-empley .tabs__panel[data-tab-id="post-mortem"] .brief-col:last-child .process-stack__item {
+        margin-top: 0;
+    }
+
+    .page-empley .tabs__panel[data-tab-id="post-mortem"] .brief-col:last-child .process-stack__item img {
+        max-height: none;
+    }
+
+    /* EllyCare: drop extra padding from intro/process tweaks */
+    .page-ellycare .tabs__panel[data-tab-id="process"] .process-block:nth-child(4) {
+        padding-top: var(--space-2xl);
+    }
+
+    .page-ellycare .tabs__panel[data-tab-id="process"] .process-block:nth-child(4) .logo-pair__item:last-child .process-image-wrap--logo {
+        margin-left: 0;
+    }
+
+    .page-ellycare .tabs__panel[data-tab-id="process"] .process-block:nth-child(4) .logo-pair__item:last-child .process-image-wrap--logo img {
+        max-width: 70%;
+    }
+
+    /* Recorded Future: post-mortem brief-cols margin reset */
+    .page-recorded-future .tabs__panel[data-tab-id="post-mortem"] .brief-cols {
+        margin-top: var(--space-lg);
+    }
+}
+
+
+/* ---------- C. <= 480px — small phone tightening ------------------------- */
+
+@media (max-width: 480px) {
+
+    .site-content,
+    .site-footer {
+        padding: 0 16px;
+    }
+
+    .site-header__inner {
+        padding: 0 16px;
+    }
+
+    /* Hero */
+    .hero {
+        padding: 40px 0 48px;
+    }
+
+    .hero__title {
+        font-size: clamp(26px, 9.4vw, 34px);
+    }
+
+    .hero__title-accent {
+        font-size: 1.5em;
+    }
+
+    .hero__image {
+        width: clamp(96px, 36vw, 140px);
+    }
+
+    /* Project hero */
+    .project-hero h1 {
+        font-size: clamp(22px, 8vw, 30px);
+    }
+
+    /* Tabs */
+    .project-tabs .tabs__buttons {
+        gap: 18px;
+        padding-left: 16px;
+        padding-right: 16px;
+        margin-left: -16px;
+        margin-right: -16px;
+    }
+
+    .tabs__button {
+        font-size: 15px;
+    }
+
+    /* Tab content — clamp() handles this scale fluidly now; keep only the
+       margin tightening here. Font sizes inherit from <=768 block above. */
+    .tab-intro__hook {
+        margin-bottom: 16px;
+    }
+
+    .tab-label {
+        margin-top: 22px;
+    }
+
+    /* Body paragraphs only — keep hook + sub on their own larger scale */
+    .project-tabs .tabs__panel p:not(.tab-intro__hook):not(.tab-intro__sub),
+    .project-tabs .tabs__panel li {
+        font-size: 15px;
+    }
+
+    /* Process blocks: tighter padding */
+    .process-block {
+        padding: var(--space-xl) 0;
+    }
+
+    /* Process image grid -> 1 col (existing rule, kept) */
+    .process-image-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Project cards: tighter */
+    .project-card__text {
+        padding: 14px 14px 18px;
+    }
+
+    .project-card__title {
+        font-size: 16px;
+    }
+
+    /* Mobile menu inner: tighter */
+    .responsive-menu__inner {
+        padding: 8px 18px 28px;
+    }
+
+    .responsive-menu__primary a {
+        font-size: 28px;
+        padding: 20px 4px;
+    }
+
+    /* CV sheet: tighter sidebar */
+    .cv-sidebar {
+        padding: 20px 16px 22px;
+    }
+
+    .cv-main {
+        padding: 20px 16px 24px;
+    }
+
+    .cv-section-heading {
+        padding-left: 16px;
+        padding-right: 16px;
+        margin-left: -16px;
+        margin-right: -16px;
+    }
+
+    /* Lightbox: even tighter */
+    .lightbox__scene {
+        padding: 56px 8px 12px;
+    }
+
+    /* Logo comparison stacks taller */
+    .logo-comparison-grid__item img {
+        max-height: 48px;
+    }
+}
+
+
+/* =============================================================================
+   D. TESTIMONIALS — global redesign (applies at all sizes)
+   ----------------------------------------------------------
+   Avatar on the LEFT, vertically centered with the quote+meta. No red sep
+   line. Wider vertical rhythm between cards. Markup expected:
+
+       .testimonial > img.testimonial__avatar
+                    > div.testimonial__body
+                       > p.testimonial__quote
+                       > div.testimonial__meta > span.testimonial__author
+                                               + span.testimonial__role
+
+   index.html still uses the old (.testimonial__footer-wrapped) markup —
+   `display: contents` flattens that wrapper so the same rules apply.
+   ============================================================================= */
+
+.testimonials-list {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(36px, 4.6vw, 56px);
+}
+
+.testimonial {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-lg);
+}
+
+.testimonial__footer {
+    display: contents;  /* unwrap legacy index.html structure */
+}
+
+.testimonial__avatar {
+    width: clamp(56px, 8vw, 80px);
+    height: clamp(56px, 8vw, 80px);
+    border-radius: 50%;
+    background-color: var(--color-muted);
+    flex-shrink: 0;
+    object-fit: cover;
+    filter: grayscale(100%);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    transform: none;
+}
+
+.testimonial__body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.testimonial__quote {
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-body);
+    font-style: italic;
+    font-size: clamp(14px, 1.6vw, 17px);
+}
+
+.testimonial__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.testimonial__author {
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-xs);
+    color: var(--color-text);
+    display: inline;          /* drop the old flex for the sep line */
+}
+
+.testimonial__role {
+    font-size: var(--font-size-xs);
+    color: var(--color-accent);
+}
+
+.testimonial__sep {
+    display: none;            /* remove the red horizontal divider */
+}
+
+
+/* =============================================================================
+   E. ACCORDION COMPONENT (used by the homepage about section AND by the
+      case-study tab→accordion conversion on mobile)
+   ----------------------------------------------------------
+   Two contexts:
+     1. Homepage about — markup is written into index.html directly. On
+        desktop the accordion renders as a flow block (the trigger looks
+        like a heading, content always visible). On mobile the trigger
+        becomes a sticky toggle.
+     2. Case studies — tabs.js dynamically inserts triggers before each
+        .tabs__panel on mobile and wires the toggle.
+   ============================================================================= */
+
+.accordion-section {
+    width: 100%;
+}
+
+.accordion-section__heading {
+    margin: 0;
+}
+
+.accordion-section__trigger {
+    width: 100%;
+    border: none;
+    background: var(--color-bg);
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    text-align: left;
+    color: var(--color-text);
+    cursor: pointer;
+    font: inherit;
+    position: relative;
+    z-index: 1;
+}
+
+.accordion-section__title {
+    font-family: var(--font-heading);
+    font-size: clamp(17px, 1.2vw + 13px, 22px);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.25;
+    letter-spacing: -0.005em;
+    color: var(--color-text);
+}
+
+.accordion-section__chevron {
+    display: inline-flex;
+    width: 22px;
+    height: 22px;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text);                 /* default BLACK */
+    flex-shrink: 0;
+    transition: transform 300ms cubic-bezier(0.2, 0.8, 0.2, 1),
+                color 200ms ease;
+}
+
+/* Red once the accordion is open */
+.accordion-section__trigger[aria-expanded="true"] .accordion-section__chevron {
+    transform: rotate(180deg);
+    color: var(--color-accent);
+}
+
+/* Desktop default: no chevron, no toggle, content always shown */
+@media (min-width: 769px) {
+    .accordion-section__chevron {
+        display: none;
+    }
+
+    .accordion-section__trigger {
+        cursor: default;
+        pointer-events: none;
+        padding: 0;
+    }
+
+    .accordion-section__content {
+        max-height: none !important;
+        overflow: visible !important;
+    }
+}
+
+/* Mobile: sticky header, click-to-collapse content */
+@media (max-width: 768px) {
+    .accordion-section {
+        position: relative;
+    }
+
+    /* Default position: relative (in flow). Sticky engages only when:
+       - the section is open AND
+       - the user is scrolling down (body lacks .scroll-up)
+       This is wired in the SCROLL-DIRECTION block further down. */
+    .accordion-section__trigger {
+        padding: 18px 0;
+        background: var(--color-bg);            /* opaque so content can't bleed through */
+        z-index: 12;
+    }
+
+    .accordion-section__title {
+        font-size: clamp(18px, 4.6vw, 22px);
+        font-weight: var(--font-weight-semibold);
+        letter-spacing: -0.005em;
+    }
+
+    /* Full-viewport-width dashed separators between accordion items.
+       Pseudo-element bleeds out to viewport edges via negative inset; body's
+       overflow-x: clip hides any horizontal overflow on the document. */
+    .accordion-section + .accordion-section .accordion-section__trigger::before {
+        content: '';
+        position: absolute;
+        top: -1px;
+        left: -100vw;
+        right: -100vw;
+        height: 1px;
+        background-image: linear-gradient(to right, rgba(0,0,0,0.25) 50%, transparent 50%);
+        background-size: 8px 1px;
+        background-repeat: repeat-x;
+        pointer-events: none;
+    }
+
+    .accordion-section__content {
+        overflow: hidden;
+        max-height: 5000px;
+        transition: max-height 420ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    /* :has() — modern (Chromium 105+, Safari 15.4+, Firefox 121+) */
+    .accordion-section:has(.accordion-section__trigger[aria-expanded="false"]) .accordion-section__content {
+        max-height: 0;
+    }
+
+    .accordion-section__content-inner {
+        padding: 4px 0 24px;
+    }
+}
+
+
+/* =============================================================================
+   F. CASE-STUDY TAB → ACCORDION (mobile)
+   ----------------------------------------------------------
+   tabs.js inserts a `.tab-accordion__trigger` before each `.tabs__panel`
+   when matchMedia '(max-width: 768px)' matches. The CSS below reveals all
+   panels, makes the trigger sticky, and animates open/close.
+   ============================================================================= */
+
+/* Trigger is hidden until tabs.js inserts it and adds the class */
+.tab-accordion__trigger {
+    display: none;
+}
+
+@media (max-width: 768px) {
+
+    /* Override the desktop tabs absolute-positioning so panels flow naturally */
+    .project-tabs .tabs__content {
+        overflow: visible !important;
+        height: auto !important;
+    }
+
+    .project-tabs .tabs__panel {
+        position: static !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        transform: none !important;
+    }
+
+    /* Accordion trigger styling — same look as homepage accordion */
+    .tab-accordion__trigger {
+        display: flex;
+        width: 100%;
+        background: var(--color-bg);            /* opaque so panel content can't bleed through */
+        border: none;
+        padding: 18px 0;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-md);
+        cursor: pointer;
+        text-align: left;
+        color: var(--color-text);
+        font-family: var(--font-heading);
+        position: relative;
+        z-index: 11;
+        transition: color 200ms ease;
+    }
+
+    /* Full-viewport dashed separator between triggers */
+    .tab-accordion__trigger + .tab-accordion__trigger,
+    .tab-accordion__panel + .tab-accordion__trigger {
+        position: relative;
+    }
+
+    .tab-accordion__panel + .tab-accordion__trigger::before {
+        content: '';
+        position: absolute;
+        top: -1px;
+        left: -100vw;
+        right: -100vw;
+        height: 1px;
+        background-image: linear-gradient(to right, rgba(0,0,0,0.25) 50%, transparent 50%);
+        background-size: 8px 1px;
+        background-repeat: repeat-x;
+        pointer-events: none;
+    }
+
+    .tab-accordion__trigger:focus-visible {
+        outline: 2px solid var(--color-accent);
+        outline-offset: 2px;
+    }
+
+    .tab-accordion__title {
+        font-family: var(--font-heading);
+        font-size: clamp(18px, 4.6vw, 22px);
+        font-weight: var(--font-weight-semibold);
+        letter-spacing: -0.005em;
+        color: var(--color-text);
+    }
+
+    .tab-accordion__chevron {
+        display: inline-flex;
+        width: 22px;
+        height: 22px;
+        color: var(--color-text);               /* default BLACK */
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: transform 300ms cubic-bezier(0.2, 0.8, 0.2, 1),
+                    color 200ms ease;
+    }
+
+    /* Red once the section is open. tabs.js mirrors aria-expanded onto a
+       class because the descendant-attribute selector wasn't matching in
+       all browsers when paired with the inherited color from .__trigger. */
+    .tab-accordion__trigger.is-open .tab-accordion__chevron,
+    .tab-accordion__trigger[aria-expanded="true"] .tab-accordion__chevron {
+        transform: rotate(180deg);
+        color: #9C231F;
+    }
+
+    /* Panel state */
+    .project-tabs .tabs__panel.tab-accordion__panel {
+        overflow: hidden;
+        max-height: 0;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        transition: max-height 420ms cubic-bezier(0.2, 0.8, 0.2, 1),
+                    padding 420ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .project-tabs .tabs__panel.tab-accordion__panel--open {
+        max-height: 9999px;
+        padding-top: var(--space-lg) !important;
+        padding-bottom: var(--space-xl) !important;
+    }
+}
+
+
+/* =============================================================================
+   G. SCROLL-DIRECTION-AWARE STICKY HEADERS (mobile)
+   ----------------------------------------------------------
+   Scrolling DOWN: open accordion triggers stick at the top of the viewport
+                   (under the main header when it's visible).
+   Scrolling UP:   they release into normal flow so all open sections slide
+                   back down with the content the user is re-reading.
+   Closed accordions never stick — there's nothing to read.
+   `header.js` toggles body.scroll-up.
+   ============================================================================= */
+
+@media (max-width: 768px) {
+
+    /* Default: only OPEN accordion triggers can stick, and only when scrolling
+       down. Closed ones flow normally. */
+    .accordion-section:has(.accordion-section__trigger[aria-expanded="true"]) .accordion-section__trigger,
+    .tab-accordion__trigger[aria-expanded="true"] {
+        position: sticky;
+        top: 0;
+    }
+
+    body:not(.header-hidden) .accordion-section:has(.accordion-section__trigger[aria-expanded="true"]) .accordion-section__trigger,
+    body:not(.header-hidden) .tab-accordion__trigger[aria-expanded="true"] {
+        top: var(--header-height);
+    }
+
+    /* Scrolling up: release sticky on all open accordion triggers. They flow
+       with content as the user moves backward. */
+    body.scroll-up .accordion-section .accordion-section__trigger,
+    body.scroll-up .tab-accordion__trigger {
+        position: relative;
+        top: auto;
+    }
+}
+
+
