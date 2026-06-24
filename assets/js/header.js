@@ -31,12 +31,6 @@ const scrollHeader = () => {
             lastDir = dir
         }
 
-        // Scroll-direction class for accordion sticky behavior.
-        // Open accordion triggers stick only when scrolling DOWN.
-        // Scrolling up releases them so all open sections slide back with content.
-        // Near the very top (y < 60) we leave it off — nothing to "stick" yet.
-        document.body.classList.toggle('scroll-up', dir === 'up' && y > 60)
-
         // Tab clicks suppress header show/hide for 700ms to prevent content
         // height changes from being misread as a scroll-up event
         if (Date.now() >= suppressUntil) {

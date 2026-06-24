@@ -11,6 +11,12 @@ const accordion = () => {
     const triggers = document.querySelectorAll('.accordion-section__trigger')
     if (!triggers.length) return
 
+    // Mobile starts CLOSED (matching the case-study accordions); the markup
+    // ships aria-expanded="true" for desktop, where content is always shown.
+    if (window.matchMedia('(max-width: 768px)').matches) {
+        triggers.forEach(trigger => trigger.setAttribute('aria-expanded', 'false'))
+    }
+
     triggers.forEach(trigger => {
         trigger.addEventListener('click', () => {
             const expanded = trigger.getAttribute('aria-expanded') === 'true'

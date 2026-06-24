@@ -106,11 +106,22 @@ const initMobileAccordion = () => {
     })
 
     // Insert an accordion trigger before each panel. All start CLOSED — user
-     // chooses which section to read. No default open / no red chevron yet.
-    tabPanels.forEach((panel, i) => {
+    // chooses which section to read. No default open / no red chevron yet.
+    //
+    // Exception: the "projects" panel (other case studies) is NOT an accordion
+    // on mobile. It carries no heading — a single dashed line (drawn in CSS)
+    // closes off the accordion list above it, and the cards stay visible,
+    // stacked at the end of the page as their own section / scroll destination.
+    tabPanels.forEach((panel) => {
         const id = panel.dataset.tabId
         const label = labels[id] || id
         const panelDomId = 'tab-panel-' + id
+
+        if (id === 'projects') {
+            panel.classList.remove('tabs__panel--active')
+            panel.classList.add('tab-accordion__tail')
+            return
+        }
 
         const trigger = document.createElement('button')
         trigger.type = 'button'

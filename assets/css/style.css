@@ -303,10 +303,6 @@ h3 {
 }
 
 
-.menu__toggle {
-    display: none;
-}
-
 
 /* ========== DASHED SEPARATOR (custom gradient — longer dashes, wider gaps) ========== */
 
@@ -335,8 +331,9 @@ h3 {
 
 .hero__inner {
     display: flex;
+    flex-direction: row-reverse;   /* image on the LEFT, text on the right */
     align-items: center;
-    gap: 80px;
+    gap: 104px;
 }
 
 .hero__image-wrap {
@@ -344,13 +341,11 @@ h3 {
 }
 
 .hero__image {
-    width: clamp(130px, 15vw, 210px);
+    /* The PNG is a transparent-background composition (~528×485). No forced
+       aspect-ratio/crop, no stroke or shadow — it shows at its natural ratio so
+       the full composition fills the frame. */
+    width: clamp(260px, 33vw, 450px);
     height: auto;
-    aspect-ratio: 3 / 4;
-    object-fit: cover;
-    border-radius: var(--radius-sm);
-    border: 0.344px solid var(--color-black-40);
-    box-shadow: 0 0 2.751px 0 rgba(0, 0, 0, 0.1);
 }
 
 .hero__text {
@@ -363,7 +358,8 @@ h3 {
 
 .hero__title {
     white-space: nowrap;
-    font-size: clamp(22px, 4.8vw, 64px);
+    font-size: clamp(26px, 5.2vw, 80px);
+    line-height: 1.12;   /* tight rows — one sentence per line, no extra spacing */
 }
 
 /* Sacramento accent — NOT italic, scales relative to parent h1 */
@@ -870,15 +866,23 @@ h3 {
    around it on the right, sized as a thumbnail. */
 .about-photo {
     float: right;
-    width: clamp(120px, 32%, 200px);
+    width: clamp(120px, 34%, 240px);
     height: auto;
     aspect-ratio: 3 / 4;
     border-radius: var(--radius-sm);
     object-fit: cover;
     filter: grayscale(100%);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-    margin: 4px 0 12px 16px;
+    margin: 4px 0 12px 20px;
     shape-outside: margin-box;
+}
+
+/* The float needs a block formatting context. The column defaults to
+   display:flex, which silently ignores the float and strands the photo on
+   its own row (the desktop regression). Switching the photo's column to
+   block makes the newspaper wrap work at every width. */
+.about-text .about-grid__col:has(.about-photo) {
+    display: block;
 }
 
 /* Clear the float at the end of the column so the next block sits cleanly */
@@ -897,6 +901,54 @@ h3 {
 .about-page__right {
     position: sticky;
     top: calc(var(--header-height) + var(--space-2xl));
+}
+
+/* ---- Desktop about: airy headings + a true magazine photo wrap ----------
+   The homepage about renders its headings via the accordion trigger (a
+   disabled "heading" on desktop). Give both headings real breathing room,
+   and collapse the two text columns into a single flow so the floated photo
+   wraps the opening paragraph AND the copy keeps flowing beneath it — no more
+   dead gap where the short first column used to clear the float. */
+@media (min-width: 769px) {
+    .about-page .accordion-section__heading {
+        margin-bottom: var(--space-lg);
+    }
+
+    /* Magazine flow is scoped to the homepage about (the block that has the
+       photo) via :has(). about.html has no photo and keeps its two-column
+       stacked layout untouched. */
+    .about-text:has(.about-photo) {
+        display: block;
+    }
+
+    .about-text:has(.about-photo) .about-grid__col {
+        display: contents;
+    }
+
+    /* Flex gap is gone with display:contents — restore paragraph rhythm. */
+    .about-text:has(.about-photo) .about-grid__col p {
+        margin: 0 0 var(--space-lg);
+    }
+
+    .about-text:has(.about-photo) .about-grid__col p:last-child {
+        margin-bottom: 0;
+    }
+
+    /* Safety net: contain the float even if the copy were ever shorter. */
+    .about-text:has(.about-photo)::after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+
+    /* Photo on the LEFT, top aligned to the copy. The 10px top margin drops the
+       photo's top edge to the cap height of the first line (the line box sits a
+       few px above the visible glyphs) so the photo and text line up at the top.
+       The right gutter gives the wrapped text breathing room. */
+    .about-text:has(.about-photo) .about-photo {
+        float: left;
+        margin: 10px clamp(24px, 3vw, 36px) 16px 0;
+    }
 }
 
 @media screen and (max-width: 900px) {
@@ -1249,9 +1301,13 @@ body.header-hidden .site-footer .menu__list {
     gap: var(--space-md);
 }
 
-/* Project detail h1 override */
+/* Project detail h1 override. Stays nowrap on desktop, but the font scales so
+   even the longest title fits within the hero image width (the hero image and
+   the heading share the same container, which caps at 1100px). The vw curve is
+   tuned to the longest title's width-to-font ratio (~23px of width per 1px of
+   font) so it never spills past the image's right edge. */
 .project-hero h1 {
-    font-size: clamp(28px, 4vw, 48px);
+    font-size: clamp(24px, calc(4.2vw - 7.5px), 46px);
     line-height: 1.1;
     letter-spacing: -0.02em;
     white-space: nowrap;
@@ -1297,18 +1353,6 @@ body.header-hidden .site-footer .menu__list {
 
 .tabs__button[data-tab="projects"] {
     margin-left: auto;
-}
-
-.tabs__button[data-tab="projects"]::before {
-    content: '';
-    position: absolute;
-    right: calc(100% + clamp(20px, 3.5vw, 50px));
-    top: 50%;
-    transform: translateY(-24%);
-    width: 1.6px;
-    height: 20.5px;
-    background-color: rgba(0, 0, 0, 0.22);
-    pointer-events: none;
 }
 
 /* ========== OTHER CASES PANEL ========== */
@@ -1387,7 +1431,7 @@ body.tabs-stuck .project-tabs .tabs__buttons::after {
  * own margins). Without :not(), this selector's specificity (0,2,1) silently
  * beats the hook/sub rules below and corrupts their rendering.
  */
-.project-tabs .tabs__panel p:not(.tab-intro__hook):not(.tab-intro__sub) {
+.project-tabs .tabs__panel p:not(.tab-intro__hook):not(.tab-intro__sub):not(.project-hero__eyebrow) {
     color: var(--color-text-secondary);
     line-height: var(--line-height-body);
     letter-spacing: 0.16px;
@@ -1396,7 +1440,7 @@ body.tabs-stuck .project-tabs .tabs__buttons::after {
     text-wrap: pretty;
 }
 
-.project-tabs .tabs__panel p:last-child:not(.tab-intro__hook):not(.tab-intro__sub) {
+.project-tabs .tabs__panel p:last-child:not(.tab-intro__hook):not(.tab-intro__sub):not(.project-hero__eyebrow) {
     margin-bottom: 0;
 }
 
@@ -1708,42 +1752,6 @@ body.tabs-stuck .project-tabs .tabs__buttons::after {
 }
 
 
-/* ========== RESPONSIVE MENU OVERLAY (teacher's advanced pattern) ========== */
-
-.responsive-menu {
-    position: fixed;
-    width: 100%;
-    min-height: 100dvh;
-    z-index: 200;
-    background-color: var(--color-bg);
-    display: none;
-}
-
-.responsive-menu--visible {
-    display: grid;
-    place-items: center;
-}
-
-.responsive-menu__list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-lg);
-}
-
-.responsive-menu__link {
-    font-size: 1.5rem;
-    font-weight: var(--font-weight-semibold);
-    text-decoration: none;
-}
-
-.responsive-menu__close {
-    position: absolute;
-    top: var(--space-lg);
-    right: var(--space-lg);
-}
-
-
 /* ========== RESPONSIVE (desktop-first, teacher's pattern) ========== */
 
 @media screen and (max-width: 1024px) {
@@ -1758,14 +1766,6 @@ body.tabs-stuck .project-tabs .tabs__buttons::after {
         gap: var(--space-xl);
     }
 
-}
-
-@media screen and (max-width: 860px) {
-    .hero__inner {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: var(--space-lg);
-    }
 }
 
 @media screen and (max-width: 768px) {
@@ -1784,14 +1784,6 @@ body.tabs-stuck .project-tabs .tabs__buttons::after {
 
     .site-header__branding img {
         height: 22px;
-    }
-
-    .menu__toggle {
-        display: flex;
-    }
-
-    .menu__list {
-        display: none;
     }
 
     h1 {
@@ -1851,12 +1843,6 @@ body.tabs-stuck .project-tabs .tabs__buttons::after {
         max-width: 100%;
     }
 
-}
-
-@media screen and (max-width: 480px) {
-    .testimonial {
-        flex-direction: column;
-    }
 }
 
 .process-image-wrap--no-border {
@@ -2559,249 +2545,9 @@ body.tabs-stuck .project-tabs .tabs__buttons::after {
    ============================================================================
    Goal: a phone experience that's a real layout, not a shrunk desktop.
    Order:
-     A. Mobile menu overlay (redesigned, brand-consistent)
      B. <= 768px — phone + small tablet
      C. <= 480px — small phone tightening
    ============================================================================= */
-
-
-/* ---------- A. Mobile menu overlay ---------------------------------------- */
-
-/* Base: present at <=768px, hidden visually until --visible class. Wins over
-   the bare-bones .responsive-menu rules earlier in the file. */
-.responsive-menu {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100dvh;
-    z-index: 200;
-    background-color: var(--color-bg);
-    display: flex;
-    flex-direction: column;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 280ms ease, visibility 0s linear 280ms;
-}
-
-.responsive-menu--visible {
-    display: flex;          /* override earlier `display: grid` rule */
-    place-items: initial;   /* neutralize earlier `place-items: center` rule */
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transition: opacity 280ms ease;
-}
-
-/* Hide entirely on desktop — the inline menu is shown instead */
-@media (min-width: 769px) {
-    .responsive-menu,
-    .responsive-menu--visible {
-        display: none;
-    }
-}
-
-.responsive-menu__inner {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 540px;
-    margin: 0 auto;
-    padding: 12px 24px 32px;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 360ms ease 60ms, transform 360ms ease 60ms;
-}
-
-.responsive-menu--visible .responsive-menu__inner {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.responsive-menu__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: var(--header-height);
-}
-
-.responsive-menu__branding {
-    display: inline-flex;
-    align-items: center;
-}
-
-.responsive-menu__branding img {
-    height: 22px;
-    width: auto;
-}
-
-/* Override the absolute-positioned close button rule from earlier in the file */
-.responsive-menu__close {
-    position: static;
-    top: auto;
-    right: auto;
-    width: 44px;
-    height: 44px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: -10px;
-    color: var(--color-text);
-    transition: color 200ms ease;
-}
-
-.responsive-menu__close:hover,
-.responsive-menu__close:focus-visible {
-    color: var(--color-accent);
-}
-
-.responsive-menu__close svg {
-    width: 24px;
-    height: 24px;
-}
-
-.responsive-menu__sep {
-    border: none;
-    border-top: 1px dashed #000;
-    opacity: 0.25;
-    height: 0;
-    margin: 0;
-    width: 100%;
-}
-
-.responsive-menu__nav {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    padding-top: 28px;
-    min-height: 0;
-}
-
-.responsive-menu__primary {
-    list-style: none;
-    margin: 0 0 36px;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-.responsive-menu__primary li {
-    border-top: 1px dashed rgba(0, 0, 0, 0.18);
-}
-
-.responsive-menu__primary li:last-child {
-    border-bottom: 1px dashed rgba(0, 0, 0, 0.18);
-}
-
-.responsive-menu__primary a {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-md);
-    padding: 22px 4px;
-    min-height: 44px;
-    font-family: var(--font-heading);
-    font-size: clamp(28px, 8vw, 36px);
-    font-weight: var(--font-weight-bold);
-    letter-spacing: -0.02em;
-    line-height: 1;
-    color: var(--color-text);
-    text-decoration: none;
-    transition: color 220ms ease;
-}
-
-.responsive-menu__primary a:hover,
-.responsive-menu__primary a:focus-visible {
-    color: var(--color-accent);
-}
-
-.responsive-menu__primary-arrow {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 22px;
-    height: 22px;
-    color: var(--color-accent);
-    flex-shrink: 0;
-    transition: transform 280ms cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.responsive-menu__primary a:hover .responsive-menu__primary-arrow,
-.responsive-menu__primary a:focus-visible .responsive-menu__primary-arrow {
-    transform: translateX(4px);
-}
-
-/* Current-page indicator: small red dot before the label */
-.responsive-menu__primary a[aria-current="page"] {
-    color: var(--color-accent);
-}
-
-.responsive-menu__primary a[aria-current="page"] .responsive-menu__primary-label::before {
-    content: '';
-    display: inline-block;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background-color: var(--color-accent);
-    margin-right: 12px;
-    vertical-align: 0.32em;
-}
-
-.responsive-menu__eyebrow {
-    font-family: var(--font-family);
-    font-size: 11px;
-    font-weight: var(--font-weight-extrabold);
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    color: var(--color-accent);
-    margin: 0 0 16px;
-}
-
-.responsive-menu__contact {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.responsive-menu__contact .animated-link {
-    display: inline-flex;
-    align-items: center;
-    padding: 12px 0;
-    min-height: 44px;
-    width: fit-content;
-}
-
-.responsive-menu__contact .animated-link__text {
-    font-size: 18px;
-    font-weight: var(--font-weight-medium);
-    text-transform: lowercase;
-}
-
-.responsive-menu__contact .animated-link__arrow {
-    display: inline-flex;
-    width: 18px;
-    height: 18px;
-    margin-left: 10px;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    top: 0;
-}
-
-/* Hide the legacy link style — markup is being updated to use the new structure */
-.responsive-menu__list { display: none; }
-.responsive-menu .responsive-menu__link { display: none; }
-
-/* Lock body scroll while menu is open (set by menu.js) */
-body.menu-open {
-    overflow: hidden;
-    /* Prevent iOS Safari rubber-band scrolling under the overlay */
-    touch-action: none;
-}
 
 
 /* ---------- B. <= 768px — phone + small tablet --------------------------- */
@@ -2828,17 +2574,11 @@ body.menu-open {
         padding: 0 20px;
     }
 
-    /* B.2 — Header: drop the hamburger entirely, surface email/linkedin/cv
+    /* B.2 — Header: no hamburger on this site — email/linkedin/cv stay
        inline so the user always has one tap to contact. Tighten type so the
        three labels + logo fit at 360px. */
-    .menu__toggle {
-        display: none !important;
-    }
-
     .menu__list {
-        display: flex !important;
         gap: clamp(12px, 4vw, 22px);
-        align-items: center;
     }
 
     .menu .animated-link__text {
@@ -2858,41 +2598,30 @@ body.menu-open {
         padding: 0 20px;
     }
 
-    /* Hide the unused mobile overlay entirely on mobile too — the inline
-       links replace it. Earlier rules show it via the hamburger; we kill it. */
-    .responsive-menu {
-        display: none !important;
-    }
-
-    body.menu-open {
-        overflow: auto;
-    }
-
-    /* B.3 — Hero: photo and headline as a pair on phone. Photo always on the
-       RIGHT via explicit order (not relying on source order so a future markup
+    /* B.3 — Hero: photo and headline as a pair on phone. Photo on the LEFT
+       via explicit order (not relying on source order so a future markup
        change can't flip it). Image shrinks, title scales for legibility. */
     .hero {
-        padding: 40px 0 48px;
+        padding: 100px 0 116px;
     }
 
     .hero__inner {
         flex-direction: row;
         align-items: center;
+        justify-content: center;
         gap: clamp(14px, 4vw, 24px);
     }
 
     .hero__text {
-        flex: 1 1 auto;
-        min-width: 0;
-        order: 1;
+        flex: 0 0 auto;
+        order: 2;
     }
 
     .hero__title {
-        white-space: normal;
-        font-size: clamp(22px, 5.8vw, 32px);
+        white-space: nowrap;
+        font-size: clamp(21px, 6.2vw, 34px);
         line-height: 1.22;
         letter-spacing: -0.015em;
-        text-wrap: balance;
     }
 
     .hero__title-accent {
@@ -2907,11 +2636,11 @@ body.menu-open {
 
     .hero__image-wrap {
         flex: 0 0 auto;
-        order: 2;
+        order: 1;
     }
 
     .hero__image {
-        width: clamp(96px, 26vw, 140px);
+        width: clamp(110px, 30vw, 165px);
     }
 
     /* B.4 — Projects section */
@@ -3082,6 +2811,22 @@ body.menu-open {
         align-items: start;
     }
 
+    /* Mobile reading flow: the heading/explanation always leads, the
+       supporting visual follows — so you read what a section is about before
+       you see it. On desktop several blocks place the image first in the DOM
+       so it lands in the left column; stacked on mobile that DOM order would
+       surface an unlabelled image above the text that explains it. Pulling the
+       text column first (grid items honour `order`) restores a "read, then
+       look" rhythm in every block without touching the desktop grid. */
+    .process-block__text {
+        order: -1;
+    }
+
+    .process-block__media,
+    .process-block__media--sticky {
+        order: 0;
+    }
+
     .process-block__text,
     .process-block__media,
     .process-block__media--sticky {
@@ -3198,7 +2943,15 @@ body.menu-open {
 
     /* B.19 — About page */
     .about-page {
-        padding: 48px 0 64px;
+        padding: 48px 0 48px;
+    }
+
+    /* Homepage about (accordion version): drop the section padding so the only
+       vertical rhythm is the trigger padding. That makes the gap above the first
+       trigger, between the two triggers, and below the last one all identical —
+       an evenly spaced folded list. about.html (no accordions) keeps the 48px. */
+    .about-page:has(.accordion-section) {
+        padding: 0;
     }
 
     .about-page__grid {
@@ -3282,10 +3035,13 @@ body.menu-open {
         gap: var(--space-md);
     }
 
-    /* Photo: keep newspaper float, just shrink a touch on phone */
+    /* Photo: newspaper float on the LEFT (matches desktop). Phone just needs a
+       smaller thumbnail + tighter right gutter. */
     .about-text .about-photo {
+        float: left;
         width: clamp(110px, 36%, 160px);
-        margin: 4px 0 10px 14px;
+        max-width: none;
+        margin: 8px 14px 10px 0;
     }
 
     /* B.26 — Section dashed separator — keep but tighten projects' inner padding */
@@ -3305,15 +3061,24 @@ body.menu-open {
         object-position: top;
     }
 
+    /* The desktop +6px alignment nudge is irrelevant stacked — but the team
+       photo still needs clear air after the quotes above it */
     .page-empley .tabs__panel[data-tab-id="post-mortem"] .brief-col:last-child .process-stack__item {
-        margin-top: 0;
+        margin-top: var(--space-xl);
     }
 
     .page-empley .tabs__panel[data-tab-id="post-mortem"] .brief-col:last-child .process-stack__item img {
         max-height: none;
     }
 
-    /* EllyCare: drop extra padding from intro/process tweaks */
+    /* EllyCare: drop extra padding from intro/process tweaks. The desktop
+       "pull Before closer to block 1" nudge (24px) leaks to mobile and makes
+       block 2 sit tighter than its siblings — normalise to the standard
+       inter-block rhythm so every process block is evenly spaced on phone. */
+    .page-ellycare .tabs__panel[data-tab-id="process"] .process-block:nth-child(2) {
+        padding-top: var(--space-2xl);
+    }
+
     .page-ellycare .tabs__panel[data-tab-id="process"] .process-block:nth-child(4) {
         padding-top: var(--space-2xl);
     }
@@ -3348,11 +3113,14 @@ body.menu-open {
 
     /* Hero */
     .hero {
-        padding: 40px 0 48px;
+        padding: 72px 0 88px;
     }
 
+    /* Small phones: scale font down just enough so each sentence stays on
+       its own row without wrapping. */
     .hero__title {
-        font-size: clamp(26px, 9.4vw, 34px);
+        white-space: nowrap;
+        font-size: clamp(18px, 5.8vw, 23px);
     }
 
     .hero__title-accent {
@@ -3360,7 +3128,7 @@ body.menu-open {
     }
 
     .hero__image {
-        width: clamp(96px, 36vw, 140px);
+        width: clamp(88px, 24vw, 110px);
     }
 
     /* Project hero */
@@ -3416,16 +3184,6 @@ body.menu-open {
         font-size: 16px;
     }
 
-    /* Mobile menu inner: tighter */
-    .responsive-menu__inner {
-        padding: 8px 18px 28px;
-    }
-
-    .responsive-menu__primary a {
-        font-size: 28px;
-        padding: 20px 4px;
-    }
-
     /* CV sheet: tighter sidebar */
     .cv-sidebar {
         padding: 20px 16px 22px;
@@ -3478,7 +3236,7 @@ body.menu-open {
 
 .testimonial {
     display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;   /* avatar on the RIGHT, quote + meta on the left */
     align-items: center;
     gap: var(--space-lg);
 }
@@ -3497,6 +3255,8 @@ body.menu-open {
     filter: grayscale(100%);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     transform: none;
+    /* Nudge the avatar inward from the right edge (row-reverse pins it right). */
+    margin-right: var(--space-3);
 }
 
 .testimonial__body {
@@ -3524,7 +3284,23 @@ body.menu-open {
     font-weight: var(--font-weight-semibold);
     font-size: var(--font-size-xs);
     color: var(--color-text);
-    display: inline;          /* drop the old flex for the sep line */
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+/* The red accent rule that trails the author's name — restored as a
+   pseudo-element so it works on the current markup (no .testimonial__sep
+   span needed) across every page. Matches the original subtle-red tone. */
+.testimonial__author::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    /* Stop a touch short of the body edge so the line ends at roughly the
+       same point as the wrapped quote text (whose longest lines reach within
+       a few px of that edge). */
+    margin-right: 4px;
+    background-color: var(--color-accent-subtle);
 }
 
 .testimonial__role {
@@ -3533,7 +3309,31 @@ body.menu-open {
 }
 
 .testimonial__sep {
-    display: none;            /* remove the red horizontal divider */
+    display: none;            /* legacy span (unused in current markup) */
+}
+
+/* Mobile testimonials: avatar on LEFT, no red accent line. Desktop layout
+   (row-reverse, red line) stays untouched — this block overrides only at ≤768px. */
+@media (max-width: 768px) {
+    .testimonial {
+        flex-direction: row;       /* avatar left, body right */
+        align-items: flex-start;
+    }
+
+    .testimonial__avatar {
+        width: clamp(40px, 10vw, 52px);
+        height: clamp(40px, 10vw, 52px);
+        margin-right: 0;
+        transform: none;
+    }
+
+    .testimonial__author::after {
+        display: none;             /* remove the red accent rule on mobile */
+    }
+
+    .testimonial__quote {
+        font-size: clamp(14px, 3.8vw, 16px);
+    }
 }
 
 
@@ -3630,8 +3430,10 @@ body.menu-open {
        - the section is open AND
        - the user is scrolling down (body lacks .scroll-up)
        This is wired in the SCROLL-DIRECTION block further down. */
+    /* Symmetric vertical padding gives equal breathing room above and below
+       the separator between the two accordions — more generous than before. */
     .accordion-section__trigger {
-        padding: 18px 0;
+        padding: var(--space-lg) 0;
         background: var(--color-bg);            /* opaque so content can't bleed through */
         z-index: 12;
     }
@@ -3642,20 +3444,28 @@ body.menu-open {
         letter-spacing: -0.005em;
     }
 
-    /* Full-viewport-width dashed separators between accordion items.
-       Pseudo-element bleeds out to viewport edges via negative inset; body's
-       overflow-x: clip hides any horizontal overflow on the document. */
-    .accordion-section + .accordion-section .accordion-section__trigger::before {
+    /* Full-viewport-width separator between accordion items. Uses the exact
+       same native dashed border + opacity as .separator / site-header /
+       site-footer site-wide, so the dash length, gap and colour all match. */
+    .accordion-section + .accordion-section .accordion-section__trigger::before,
+    .about-page__right .accordion-section__trigger::before {
         content: '';
         position: absolute;
-        top: -1px;
-        left: -100vw;
-        right: -100vw;
-        height: 1px;
-        background-image: linear-gradient(to right, rgba(0,0,0,0.25) 50%, transparent 50%);
-        background-size: 8px 1px;
-        background-repeat: repeat-x;
+        top: 0;
+        left: 50%;
+        width: 100vw;
+        transform: translateX(-50%);
+        border-top: 1px dashed #000;
+        opacity: 0.25;
         pointer-events: none;
+    }
+
+    /* Homepage about: the two accordions sit in separate grid cells. Collapse
+       the grid gap so consecutive triggers read as one continuous list (the
+       dashed separator above carries the division). Scoped via :has() so
+       about.html's accordion-free grid keeps its normal stacking gap. */
+    .about-page__grid:has(.accordion-section) {
+        gap: 0;
     }
 
     .accordion-section__content {
@@ -3704,11 +3514,18 @@ body.menu-open {
         transform: none !important;
     }
 
-    /* Accordion trigger styling — same look as homepage accordion */
+    /* Accordion trigger styling — sticky so the current section label stays
+       visible while reading, with only one trigger visible at the header
+       bottom at a time. The push-off between sections is handled by DOM
+       order: all triggers share the same z-index, so the later (lower) one
+       naturally paints on top of the earlier one when they reach the same
+       sticky position — identical to how browsers render overlapping sticky
+       table headers. The top value transitions in sync with the site header
+       show/hide so the trigger glides rather than jumps. */
     .tab-accordion__trigger {
         display: flex;
         width: 100%;
-        background: var(--color-bg);            /* opaque so panel content can't bleed through */
+        background: var(--color-bg);
         border: none;
         padding: 18px 0;
         align-items: center;
@@ -3718,28 +3535,56 @@ body.menu-open {
         text-align: left;
         color: var(--color-text);
         font-family: var(--font-heading);
-        position: relative;
-        z-index: 11;
-        transition: color 200ms ease;
+        position: sticky;
+        top: 0;
+        z-index: 35;
+        transition: color 200ms ease, top 500ms ease-in-out;
     }
 
-    /* Full-viewport dashed separator between triggers */
-    .tab-accordion__trigger + .tab-accordion__trigger,
-    .tab-accordion__panel + .tab-accordion__trigger {
-        position: relative;
+    /* When the site header is visible, push the sticky trigger below it */
+    body:not(.header-hidden) .tab-accordion__trigger {
+        top: var(--header-height);
     }
 
-    .tab-accordion__panel + .tab-accordion__trigger::before {
+    /* Bottom dashed separator — appears when the trigger is stuck and covering
+       content below, matching the site header's own dashed bottom edge. */
+    .tab-accordion__trigger::after {
         content: '';
         position: absolute;
-        top: -1px;
-        left: -100vw;
-        right: -100vw;
-        height: 1px;
-        background-image: linear-gradient(to right, rgba(0,0,0,0.25) 50%, transparent 50%);
-        background-size: 8px 1px;
-        background-repeat: repeat-x;
+        bottom: 0;
+        left: 50%;
+        width: 100vw;
+        transform: translateX(-50%);
+        border-top: 1px dashed #000;
+        opacity: 0.25;
         pointer-events: none;
+    }
+
+    /* Full-viewport separator between triggers AND the single closing line
+       above the projects cards. Uses the exact same native dashed border +
+       opacity as .separator site-wide, so dash length, gap and colour match. */
+    .tab-accordion__panel + .tab-accordion__trigger::before,
+    .tabs__content > .tab-accordion__trigger:first-child::before,
+    .project-tabs .tabs__panel.tab-accordion__tail::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 100vw;
+        transform: translateX(-50%);
+        border-top: 1px dashed #000;
+        opacity: 0.25;
+        pointer-events: none;
+    }
+
+    /* "Projects" is not an accordion on mobile. tabs.js tags this panel so the
+       other-case cards drop below a single dashed line that finishes off the
+       accordion list, then read as their own section — no heading, no extra
+       lines. The line is the ::before above; the padding pushes the cards down. */
+    .project-tabs .tabs__panel.tab-accordion__tail {
+        position: relative !important;
+        margin-top: 0;
+        padding-top: 72px !important;
     }
 
     .tab-accordion__trigger:focus-visible {
@@ -3780,6 +3625,9 @@ body.menu-open {
     .project-tabs .tabs__panel.tab-accordion__panel {
         overflow: hidden;
         max-height: 0;
+        min-height: 0;
+        margin-top: 0;
+        margin-bottom: 0;
         padding-top: 0 !important;
         padding-bottom: 0 !important;
         transition: max-height 420ms cubic-bezier(0.2, 0.8, 0.2, 1),
@@ -3795,38 +3643,7 @@ body.menu-open {
 
 
 /* =============================================================================
-   G. SCROLL-DIRECTION-AWARE STICKY HEADERS (mobile)
-   ----------------------------------------------------------
-   Scrolling DOWN: open accordion triggers stick at the top of the viewport
-                   (under the main header when it's visible).
-   Scrolling UP:   they release into normal flow so all open sections slide
-                   back down with the content the user is re-reading.
-   Closed accordions never stick — there's nothing to read.
-   `header.js` toggles body.scroll-up.
+   G. (reserved)
    ============================================================================= */
-
-@media (max-width: 768px) {
-
-    /* Default: only OPEN accordion triggers can stick, and only when scrolling
-       down. Closed ones flow normally. */
-    .accordion-section:has(.accordion-section__trigger[aria-expanded="true"]) .accordion-section__trigger,
-    .tab-accordion__trigger[aria-expanded="true"] {
-        position: sticky;
-        top: 0;
-    }
-
-    body:not(.header-hidden) .accordion-section:has(.accordion-section__trigger[aria-expanded="true"]) .accordion-section__trigger,
-    body:not(.header-hidden) .tab-accordion__trigger[aria-expanded="true"] {
-        top: var(--header-height);
-    }
-
-    /* Scrolling up: release sticky on all open accordion triggers. They flow
-       with content as the user moves backward. */
-    body.scroll-up .accordion-section .accordion-section__trigger,
-    body.scroll-up .tab-accordion__trigger {
-        position: relative;
-        top: auto;
-    }
-}
 
 
